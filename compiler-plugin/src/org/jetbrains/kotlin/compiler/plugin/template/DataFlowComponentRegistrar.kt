@@ -2,7 +2,6 @@ package org.jetbrains.kotlin.compiler.plugin.template
 
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
-import org.jetbrains.kotlin.backend.common.ir.addDispatchReceiver
 import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
@@ -13,7 +12,6 @@ import org.jetbrains.kotlin.ir.builders.IrBlockBodyBuilder
 import org.jetbrains.kotlin.ir.builders.Scope
 import org.jetbrains.kotlin.ir.builders.declarations.addFunction
 import org.jetbrains.kotlin.ir.builders.declarations.addValueParameter
-import org.jetbrains.kotlin.ir.builders.declarations.buildReceiverParameter
 import org.jetbrains.kotlin.ir.builders.irCall
 import org.jetbrains.kotlin.ir.builders.irGet
 import org.jetbrains.kotlin.ir.builders.irGetField
@@ -216,64 +214,38 @@ private class DataFlowClassVisitor(
 
             // Create the setter method: fun setI(i: Int)
             generatedClass.addFunction {
-                name =
-                    Name.identifier("set$propertyName".replaceFirstChar { it.uppercase() })
+                name = Name.identifier("set${propertyName.replaceFirstChar { it.uppercase() }}")
                 returnType = pluginContext.irBuiltIns.unitType
             }.apply {
-                // Add the function parameter (e.g., the 'i' in 'setI(i: Int)')
-                val parameter = addValueParameter(propertyName, propertyType)
-//                body = IrBlockBodyBuilder(
-//                    context = pluginContext,
-//                    scope = Scope(this.symbol),
-//                    startOffset = startOffset,
-//                    endOffset = endOffset
-//                ).blockBody {
-//                    val copyFunction = annotatedClass.functions.single { it.name.asString() == "copy" }
-//                    val copyFunctionParameter = copyFunction.parameters.single { it.name == parameter.name }
-//                    val getThis = irGet(this@apply.dispatchReceiverParameter!!)
-//                    val getAllProperty = irGetField(getThis, allProperty.backingField!!)
-//                    val getCurrentAllValue = irCall(stateFlowValue).apply {
-//                        dispatchReceiver = getAllProperty
-//                    }
-//                    val newAllValue = irCall(copyFunction).apply {
-//                        dispatchReceiver = getCurrentAllValue
-//                        arguments[copyFunctionParameter.indexInParameters] = irGet(parameter)
-//                    }
-//
-//                    +irCall(mutableStateFlowValue).apply {
-//                        dispatchReceiver = getAllProperty
-//                        arguments[0] = newAllValue
-//                    }
-//                }
+                val dispatchReceiver = generatedClass.thisReceiver!!.copyTo(
+                    irFunction = this@apply,
+                    kind = IrParameterKind.DispatchReceiver
+                )
+                this.parameters = listOf(dispatchReceiver)
 
-                // Create the function body
+                val parameter = addValueParameter(propertyName, propertyType)
                 body = IrBlockBodyBuilder(
                     context = pluginContext,
                     scope = Scope(this.symbol),
                     startOffset = startOffset,
                     endOffset = endOffset
                 ).blockBody {
-                    // Body logic: all.value = all.value.copy(i = i)
-                    val copyFunction =
-                        annotatedClass.functions.single { it.name.asString() == "copy" }
-//                    val allValueGetter = irCall(stateFlowValue).apply {
-//                        dispatchReceiver =
-//                            irGetField(irGet(generatedClass.thisReceiver!!), allProperty)
-//                    }
-//
-//                    val newAllValue = irCall(copyFunction).apply {
-//                        dispatchReceiver = allValueGetter
-//                        arguments.add(irGet(parameter))
-////                        putArgument(irGet(parameter))
-////                        putValueArgument(param.indexInParameters, irGet(parameter))
-//                    }
-//
-//                    +irCall(mutableStateFlowValue).apply {
-//                        dispatchReceiver =
-//                            irGetField(irGet(generatedClass.thisReceiver!!), allProperty)
-//                        arguments.add(irGet(parameter))
-////                        putValueArgument(0, newAllValue)
-//                    }
+                    val copyFunction = annotatedClass.functions.single { it.name.asString() == "copy" }
+                    val copyFunctionParameter = copyFunction.parameters.single { it.name == parameter.name }
+                    val getThis = irGet(this@apply.dispatchReceiverParameter!!)
+                    val getAllProperty = irGetField(getThis, allProperty.backingField!!)
+                    val getCurrentAllValue = irCall(stateFlowValue).apply {
+                        this.dispatchReceiver = getAllProperty
+                    }
+                    val newAllValue = irCall(copyFunction).apply {
+                        this.dispatchReceiver = getCurrentAllValue
+                        arguments[copyFunctionParameter.indexInParameters] = irGet(parameter)
+                    }
+
+                    +irCall(mutableStateFlowValue).apply {
+                        this.dispatchReceiver = getAllProperty
+                        arguments[0] = newAllValue
+                    }
                 }
             }
         }
