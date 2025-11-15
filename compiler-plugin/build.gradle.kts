@@ -27,6 +27,7 @@ val annotationsRuntimeClasspath: Configuration by configurations.creating { isTr
 
 dependencies {
     compileOnly(kotlin("compiler"))
+    compileOnly(kotlin("compiler-embeddable"))
 
     testFixturesApi(kotlin("test-junit5"))
     testFixturesApi(kotlin("compiler-internal-test-framework"))
@@ -40,6 +41,11 @@ dependencies {
     testRuntimeOnly(kotlin("test"))
     testRuntimeOnly(kotlin("script-runtime"))
     testRuntimeOnly(kotlin("annotations-jvm"))
+    testImplementation("dev.zacsweers.kctfork:core:0.11.0")
+//    testFixturesImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.5.0")
+
+    testRuntimeOnly(project(":plugin-annotations"))
+    testImplementation(libs.kotlinx.coroutines.core)
 }
 
 buildConfig {
