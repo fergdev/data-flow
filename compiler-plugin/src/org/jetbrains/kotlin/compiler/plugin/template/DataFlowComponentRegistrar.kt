@@ -1,5 +1,6 @@
 package org.jetbrains.kotlin.compiler.plugin.template
 
+import org.jetbrains.kotlin.DeprecatedForRemovalCompilerApi
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.backend.common.extensions.IrPluginContext
 import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
@@ -7,42 +8,54 @@ import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.descriptors.DescriptorVisibilities
 import org.jetbrains.kotlin.descriptors.Modality
+import org.jetbrains.kotlin.ir.IrElement
 import org.jetbrains.kotlin.ir.IrStatement
 import org.jetbrains.kotlin.ir.builders.IrBlockBodyBuilder
 import org.jetbrains.kotlin.ir.builders.Scope
+import org.jetbrains.kotlin.ir.builders.declarations.addConstructor
 import org.jetbrains.kotlin.ir.builders.declarations.addFunction
 import org.jetbrains.kotlin.ir.builders.declarations.addValueParameter
+import org.jetbrains.kotlin.ir.builders.declarations.buildReceiverParameter
 import org.jetbrains.kotlin.ir.builders.irCall
+import org.jetbrains.kotlin.ir.builders.irDelegatingConstructorCall
 import org.jetbrains.kotlin.ir.builders.irGet
 import org.jetbrains.kotlin.ir.builders.irGetField
 import org.jetbrains.kotlin.ir.builders.irReturn
+import org.jetbrains.kotlin.ir.builders.irSetField
 import org.jetbrains.kotlin.ir.declarations.IrClass
-import org.jetbrains.kotlin.ir.declarations.IrDeclarationOrigin
 import org.jetbrains.kotlin.ir.declarations.IrDeclarationOriginImpl
 import org.jetbrains.kotlin.ir.declarations.IrFile
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
 import org.jetbrains.kotlin.ir.declarations.IrParameterKind
+import org.jetbrains.kotlin.ir.declarations.IrProperty
 import org.jetbrains.kotlin.ir.declarations.IrSimpleFunction
 import org.jetbrains.kotlin.ir.declarations.addMember
+import org.jetbrains.kotlin.ir.declarations.impl.IrFactoryImpl
+import org.jetbrains.kotlin.ir.declarations.name
 import org.jetbrains.kotlin.ir.symbols.impl.IrClassSymbolImpl
 import org.jetbrains.kotlin.ir.symbols.impl.IrFieldSymbolImpl
 import org.jetbrains.kotlin.ir.symbols.impl.IrPropertySymbolImpl
 import org.jetbrains.kotlin.ir.symbols.impl.IrSimpleFunctionSymbolImpl
-import org.jetbrains.kotlin.ir.symbols.impl.IrValueParameterSymbolImpl
+import org.jetbrains.kotlin.ir.types.IrType
 import org.jetbrains.kotlin.ir.types.classFqName
 import org.jetbrains.kotlin.ir.types.typeWith
+import org.jetbrains.kotlin.ir.util.DumpIrTreeOptions
 import org.jetbrains.kotlin.ir.util.addChild
+import org.jetbrains.kotlin.ir.util.constructors
 import org.jetbrains.kotlin.ir.util.copyTo
+import org.jetbrains.kotlin.ir.util.createThisReceiverParameter
 import org.jetbrains.kotlin.ir.util.defaultType
+import org.jetbrains.kotlin.ir.util.dump
 import org.jetbrains.kotlin.ir.util.functions
 import org.jetbrains.kotlin.ir.util.primaryConstructor
+import org.jetbrains.kotlin.ir.util.properties
+import org.jetbrains.kotlin.ir.util.render
 import org.jetbrains.kotlin.ir.visitors.IrElementTransformerVoid
 import org.jetbrains.kotlin.name.CallableId
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 
-// The @OptIn annotation is required because the compiler plugin API is experimental.
 @OptIn(ExperimentalCompilerApi::class)
 class DataFlowComponentRegistrar : CompilerPluginRegistrar() {
 
@@ -54,9 +67,6 @@ class DataFlowComponentRegistrar : CompilerPluginRegistrar() {
      * pass options to your plugin.
      */
     override fun ExtensionStorage.registerExtensions(configuration: CompilerConfiguration) {
-        // Register our custom IR generation extension.
-        // This extension is responsible for finding the @DataFlow annotation and
-        // generating the new wrapper class.
         IrGenerationExtension.registerExtension(
             DataFlowIrGenerationExtension()
         )
@@ -79,16 +89,10 @@ class DataFlowIrGenerationExtension : IrGenerationExtension {
         moduleFragment: IrModuleFragment,
         pluginContext: IrPluginContext
     ) {
-        // TODO: This is where the magic happens.
-        // 1. Create a visitor that will traverse the IR tree.
-        // 2. In the visitor, look for classes annotated with @DataFlow.
-        // 3. For each annotated data class, use the IrFactory and SymbolTable
-        //    from the pluginContext to construct a new IrClass (the '...Flow' wrapper).
-        // 4. Add the generated class to the moduleFragment.
-
         println("DataFlow compiler plugin is running!")
         val visitor = DataFlowClassVisitor(pluginContext)
         moduleFragment.transform(visitor, null)
+        println("DataFlow compiler plugin is over")
     }
 }
 
@@ -121,7 +125,18 @@ private class DataFlowClassVisitor(
         callableName = Name.identifier("value")
     )
 
+    private val mutableStateFlowValue =
+        pluginContext.referenceProperties(msfCId2)
+            .single { it.owner.name.asString() == "value" }.owner.setter!!
+    private val stateFlowValue =
+        pluginContext.referenceProperties(sfCId)
+            .single { it.owner.name.asString() == "value" }.owner.getter!!
+
+    private val mutableStateFlowOf = pluginContext.referenceFunctions(msfCId)
+        .single { it.owner.parameters.size == 1 }
+
     override fun visitClass(declaration: IrClass): IrStatement {
+        println("visiting ${declaration.name}")
         if (declaration.annotations.any { it.type.classFqName == dataFlowAnnotation }) {
             val generatedClass = generateDataFlowClass(declaration)
             generatedClasses.add(generatedClass)
@@ -130,6 +145,7 @@ private class DataFlowClassVisitor(
     }
 
     override fun visitFile(declaration: IrFile): IrFile {
+        println("visiting ${declaration.name}")
         val result = super.visitFile(declaration)
         generatedClasses.forEach {
             println("Adding generated class")
@@ -148,14 +164,12 @@ private class DataFlowClassVisitor(
      * The main generation logic. Creates the '...Flow' class.
      */
     private fun generateDataFlowClass(annotatedClass: IrClass): IrClass {
-        // 1. Create the new class itself
-        val factory = org.jetbrains.kotlin.ir.declarations.impl.IrFactoryImpl
-        val generatedClassName = Name.identifier("${annotatedClass.name.asString()}Flow")
+        val factory = IrFactoryImpl
         val generatedClass = factory.createClass(
             startOffset = annotatedClass.startOffset,
             endOffset = annotatedClass.endOffset,
-            origin = IrDeclarationOriginImpl(generatedClassName.identifier),
-            name = generatedClassName,
+            origin = IrDeclarationOriginImpl("DataFlow"),
+            name = Name.identifier("${annotatedClass.name.asString()}Flow"),
             visibility = DescriptorVisibilities.PUBLIC,
             modality = Modality.FINAL,
             kind = org.jetbrains.kotlin.descriptors.ClassKind.CLASS,
@@ -168,115 +182,169 @@ private class DataFlowClassVisitor(
             isValue = false,
             symbol = IrClassSymbolImpl()
         ).apply {
-            // Set the parent of the generated class to be the same file as the annotated class.
             parent = annotatedClass.parent
-            thisReceiver = factory.createValueParameter(
-                startOffset = startOffset,
-                endOffset = endOffset,
-                origin = IrDeclarationOrigin.INSTANCE_RECEIVER,
-                kind = IrParameterKind.DispatchReceiver,
-                name = Name.special("<this>"),
-                type = this.symbol.typeWith(), // The type is the class itself
-                isAssignable = false,
-                symbol = IrValueParameterSymbolImpl(),
-                varargElementType = null,
-                isCrossinline = false,
-                isNoinline = false,
-                isHidden = false,
-            ).also { it.parent = this }
+            createThisReceiverParameter()
         }
-        // 2. Find references to external types we need (like MutableStateFlow)
-        val mutableStateFlowOf =
-            pluginContext.referenceFunctions(msfCId)
-                .single { it.owner.parameters.size == 1 }
-        println("wowowow $mutableStateFlowOf")
-        println("asdfasdf $msfCId2")
-        val mutableStateFlowValue =
-            pluginContext.referenceProperties(msfCId2)
-                .single {
-                    println(it.owner.name)
-                    it.owner.name.asString() == "value"
-                }.owner.setter!!
-        val stateFlowValue =
-            pluginContext.referenceProperties(sfCId)
-                .single { it.owner.name.asString() == "value" }.owner.getter!!
 
-        // 3. Create the 'all' property: val all = MutableStateFlow(MyData())
         val allProperty = generatedClass.addStateFlowProperty("all", annotatedClass.defaultType)
-
-        // 4. Generate properties and setters for each property in the original data class
         annotatedClass.primaryConstructor?.parameters?.forEach { param ->
             val propertyName = param.name.asString()
             val propertyType = param.type
 
-            // Create the state flow property: val i = MutableStateFlow(...)
-            val flowProperty = generatedClass.addStateFlowProperty(propertyName, propertyType)
-
-            // Create the setter method: fun setI(i: Int)
-            generatedClass.addFunction {
-                name = Name.identifier("set${propertyName.replaceFirstChar { it.uppercase() }}")
-                returnType = pluginContext.irBuiltIns.unitType
-            }.apply {
-                val dispatchReceiver = generatedClass.thisReceiver!!.copyTo(
-                    irFunction = this@apply,
-                    kind = IrParameterKind.DispatchReceiver
-                )
-                this.parameters = listOf(dispatchReceiver)
-
-                val parameter = addValueParameter(propertyName, propertyType)
-                body = IrBlockBodyBuilder(
-                    context = pluginContext,
-                    scope = Scope(this.symbol),
-                    startOffset = startOffset,
-                    endOffset = endOffset
-                ).blockBody {
-                    val copyFunction = annotatedClass.functions.single { it.name.asString() == "copy" }
-                    val copyFunctionParameter = copyFunction.parameters.single { it.name == parameter.name }
-                    val getThis = irGet(this@apply.dispatchReceiverParameter!!)
-                    val getAllProperty = irGetField(getThis, allProperty.backingField!!)
-                    val getCurrentAllValue = irCall(stateFlowValue).apply {
-                        this.dispatchReceiver = getAllProperty
-                    }
-                    val newAllValue = irCall(copyFunction).apply {
-                        this.dispatchReceiver = getCurrentAllValue
-                        arguments[copyFunctionParameter.indexInParameters] = irGet(parameter)
-                    }
-
-                    +irCall(mutableStateFlowValue).apply {
-                        this.dispatchReceiver = getAllProperty
-                        arguments[0] = newAllValue
-                    }
-                }
-            }
+            val flowProperty = generatedClass.addStateFlowProperty(
+                name = propertyName,
+                type = propertyType
+            )
+            generatedClass.addSetField(
+                propertyName = propertyName,
+                propertyType = propertyType,
+                annotatedClass = annotatedClass,
+                allProperty = allProperty
+            )
         }
+        generatedClass.generateConstructor(annotatedClass, allProperty)
 
+        generatedClass.print()
         return generatedClass
     }
+
+    private fun IrClass.generateConstructor(annotatedClass: IrClass, allProperty: IrProperty) {
+        addConstructor {
+            isPrimary = true
+            visibility = DescriptorVisibilities.PUBLIC
+        }.apply {
+            buildReceiverParameter {
+                name = Name.special("<this>")
+                type = annotatedClass.defaultType
+            }
+            val params = annotatedClass.primaryConstructor!!.parameters.map { p ->
+                this.addValueParameter(p.name, p.type)
+            }
+
+            body = IrBlockBodyBuilder(
+                context = pluginContext,
+                scope = Scope(this.symbol),
+                startOffset = startOffset,
+                endOffset = endOffset
+            ).blockBody {
+                +irDelegatingConstructorCall(
+                    pluginContext.referenceConstructors(ClassId.fromString("kotlin/Any"))
+                        .single().owner
+                )
+
+                this@apply.parameters.filter { it.kind == IrParameterKind.Regular }
+                    .forEach { param ->
+                        val property =
+                            this@generateConstructor.properties.single { it.name == param.name }
+                        +irSetField(
+                            receiver = null,
+                            field = property.backingField!!,
+                            value = irCall(mutableStateFlowOf).apply {
+                                typeArguments[0] = param.type
+                                arguments[0] = irGet(param)
+                            }
+                        )
+                    }
+
+                +irSetField(
+                    receiver = null,
+                    field = allProperty.backingField!!,
+                    value = irCall(mutableStateFlowOf).apply {
+                        typeArguments[0] = annotatedClass.defaultType
+                        arguments[0] = irCall(annotatedClass.constructors.single().symbol).apply {
+                            println("well params ${params.map { it.name }}")
+                            params.forEachIndexed { idx, param ->
+                                arguments[idx] = irGet(param)
+                            }
+                        }
+                    }
+                )
+            }
+        }
+    }
+
+    private fun IrClass.addSetField(
+        propertyName: String,
+        propertyType: IrType,
+        annotatedClass: IrClass,
+        allProperty: IrProperty
+    ) {
+        addFunction {
+            name = Name.identifier("set${propertyName.replaceFirstChar { it.uppercase() }}")
+            returnType = pluginContext.irBuiltIns.unitType
+        }.apply {
+            parent = this@addSetField
+            val dispatchReceiverParameter = this@addSetField.thisReceiver!!.copyTo(
+                irFunction = this,
+                kind = IrParameterKind.DispatchReceiver
+            )
+
+            this.parameters = listOf(dispatchReceiverParameter)
+
+            val parameter = addValueParameter(propertyName, propertyType)
+            println(parameter.name)
+            body = IrBlockBodyBuilder(
+                context = pluginContext,
+                scope = Scope(this.symbol),
+                startOffset = startOffset,
+                endOffset = endOffset
+            ).blockBody {
+                val thisExpr = irGet(dispatchReceiverParameter)
+
+                val copyFunction = annotatedClass.functions.single { it.name.asString() == "copy" }
+                val copyFunctionParameter =
+                    copyFunction.parameters.single { it.name == parameter.name }
+
+//                val getThis = irGet(this@addSetField.thisReceiver!!)
+//                val getAllProperty = irGetField(getThis, allProperty.backingField!!)
+//                val getCurrentAllValue = irCall(stateFlowValue).apply {
+//                    this.dispatchReceiver = getAllProperty
+//                }
+
+                // all: MutableStateFlow<MyData>
+                val allFlowField = irGetField(thisExpr, allProperty.backingField!!)
+
+                // current MyData value from all.value
+                val currentAllValue = irCall(stateFlowValue).apply {
+                    dispatchReceiver = allFlowField
+                }
+                val newAllValue = irCall(copyFunction).apply {
+                    this.dispatchReceiver = currentAllValue
+                    arguments[copyFunctionParameter.indexInParameters] = irGet(parameter)
+                }
+
+                +irCall(mutableStateFlowValue).apply {
+                    this.dispatchReceiver = allFlowField
+                    arguments[1] = newAllValue
+                }
+            }
+            this.print()
+        }
+    }
+
+    @OptIn(DeprecatedForRemovalCompilerApi::class)
     private fun IrClass.addStateFlowProperty(
         name: String,
-        type: org.jetbrains.kotlin.ir.types.IrType
-    ): org.jetbrains.kotlin.ir.declarations.IrProperty {
+        type: IrType
+    ): IrProperty {
         val factory = pluginContext.irFactory
         // Get a reference to the MutableStateFlow<T> type.
         val mutableStateFlowType = pluginContext.referenceClass(classIdMutableStateFlow)!!
             .typeWith(type)
 
         // 1. Create the IR Property.
-//        val property = org.jetbrains.kotlin.ir.builders.declarations.buildProperty(
         val property = factory.createProperty(
             startOffset = this.startOffset,
             endOffset = this.endOffset,
             origin = IrDeclarationOriginImpl("DataFlow"), // An IR Origin
             name = Name.identifier(name),
-//            type = mutableStateFlowType,
             isVar = false,
             isConst = false,
             isLateinit = false,
             isDelegated = false,
             visibility = DescriptorVisibilities.PUBLIC,
             modality = Modality.FINAL,
-            symbol = IrPropertySymbolImpl(),
-
+            symbol = IrPropertySymbolImpl()
         ).apply {
             parent = this@addStateFlowProperty // Set the parent to the IR class
         }
@@ -317,29 +385,27 @@ private class DataFlowClassVisitor(
         ).apply {
             parent = this@addStateFlowProperty
             correspondingPropertySymbol = property.symbol
-            val dispatchReceiver = this@addStateFlowProperty.thisReceiver!!.copyTo(
+            dispatchReceiverParameter = this@addStateFlowProperty.thisReceiver!!.copyTo(
                 irFunction = this,
                 kind = IrParameterKind.DispatchReceiver
             )
-            this.parameters = listOf(dispatchReceiver)
-//            parameters = listOf(
-//                buildReceiverParameter {
-//                    this.type = this@addStateFlowProperty.thisReceiver!!.type
-//                }
-//            )
 
             // The body of the getter simply returns the value from the backing field.
-            body = IrBlockBodyBuilder(pluginContext, Scope(this.symbol), startOffset, endOffset).blockBody {
+            body = IrBlockBodyBuilder(
+                pluginContext,
+                Scope(this.symbol),
+                startOffset,
+                endOffset
+            ).blockBody {
                 +irReturn(
                     irGetField(
-                        irGet(dispatchReceiver),
+                        irGet(dispatchReceiverParameter!!),
                         property.backingField!!
                     )
                 )
             }
         }
 
-        // 4. Add the fully constructed IR property to the IR class.
         this.addMember(property)
 
         return property
@@ -348,8 +414,18 @@ private class DataFlowClassVisitor(
     // Helper to add a value parameter to a function
     private fun IrSimpleFunction.addValueParameter(
         name: String,
-        type: org.jetbrains.kotlin.ir.types.IrType
+        type: IrType
     ): org.jetbrains.kotlin.ir.declarations.IrValueParameter {
         return this.addValueParameter(Name.identifier(name), type)
     }
+}
+
+fun IrElement.print() {
+    println("*".repeat(20))
+    println(
+        this.dump(
+            options = DumpIrTreeOptions(normalizeNames = true, printSignatures = true)
+        )
+    )
+    println("*".repeat(20))
 }

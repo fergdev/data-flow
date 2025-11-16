@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.compiler.plugin.CliOption
 import org.jetbrains.kotlin.compiler.plugin.CommandLineProcessor
 import org.jetbrains.kotlin.config.CompilerConfiguration
 
-@Suppress("unused") // Used via reflection.
+@Suppress("unused")
 class SimpleCommandLineProcessor : CommandLineProcessor {
     override val pluginId: String = BuildConfig.KOTLIN_PLUGIN_ID
 
