@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        google()
         mavenCentral()
         gradlePluginPortal()
     }
@@ -8,6 +9,7 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+        google()
         mavenCentral()
     }
 }
@@ -17,3 +19,5 @@ rootProject.name = "compiler-plugin-template"
 include("compiler-plugin")
 include("gradle-plugin")
 include("plugin-annotations")
+include(":testmodule")
+include(":testmodule2")

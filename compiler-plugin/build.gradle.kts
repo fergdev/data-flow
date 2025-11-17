@@ -5,6 +5,8 @@ plugins {
     idea
 }
 
+kotlin { compilerOptions.freeCompilerArgs.add("-Xcontext-parameters") }
+
 sourceSets {
     main {
         java.setSrcDirs(listOf("src"))
@@ -41,7 +43,7 @@ dependencies {
     testRuntimeOnly(kotlin("test"))
     testRuntimeOnly(kotlin("script-runtime"))
     testRuntimeOnly(kotlin("annotations-jvm"))
-    testImplementation("dev.zacsweers.kctfork:core:0.11.0")
+    testImplementation(libs.kctfork.core)
 //    testFixturesImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.5.0")
 
     testRuntimeOnly(project(":plugin-annotations"))

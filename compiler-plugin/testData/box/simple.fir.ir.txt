@@ -9,7 +9,7 @@ FILE fqName:foo.bar fileName:/simple.kt
           BRANCH
             if: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EQEQ
               ARG arg0: GET_VAR 'val result: kotlin.String declared in foo.bar.box' type=kotlin.String origin=null
-              ARG arg1: CONST String type=kotlin.String value="Hello world"
+              ARG arg1: CONST String type=kotlin.String value="Hello fergus"
             then: BLOCK type=kotlin.String origin=null
               CONST String type=kotlin.String value="OK"
           BRANCH
@@ -42,4 +42,4 @@ FILE fqName:foo.bar fileName:__GENERATED DECLARATIONS__.kt
       VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:foo.bar.MyClass
       BLOCK_BODY
         RETURN type=kotlin.Nothing from='public final fun foo (): kotlin.String declared in foo.bar.MyClass'
-          CONST String type=kotlin.String value="Hello world"
+          CONST String type=kotlin.String value="Hello fergus"

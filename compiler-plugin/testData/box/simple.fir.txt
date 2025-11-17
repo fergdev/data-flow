@@ -4,7 +4,7 @@ FILE: simple.kt
     public final fun box(): R|kotlin/String| {
         lval result: R|kotlin/String| = R|foo/bar/MyClass|().R|foo/bar/MyClass.foo|()
         ^box when () {
-            ==(R|<local>/result|, String(Hello world)) ->  {
+            ==(R|<local>/result|, String(Hello fergus)) ->  {
                 String(OK)
             }
             else ->  {

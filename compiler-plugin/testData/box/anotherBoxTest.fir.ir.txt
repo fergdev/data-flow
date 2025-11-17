@@ -57,4 +57,4 @@ FILE fqName:foo.bar fileName:__GENERATED DECLARATIONS__.kt
       VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:foo.bar.MyClass
       BLOCK_BODY
         RETURN type=kotlin.Nothing from='public final fun foo (): kotlin.String declared in foo.bar.MyClass'
-          CONST String type=kotlin.String value="Hello world"
+          CONST String type=kotlin.String value="Hello fergus"
