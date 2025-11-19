@@ -191,16 +191,16 @@ class DataFlowFirDeclarationGenerationExtension(session: FirSession) :
 
         if (callableId.callableName == DataFlowNames.Names.AllFunName) {
             return listOf(
-                this@DataFlowFirDeclarationGenerationExtension.createMemberProperty(
+                createMemberProperty(
                     matchedClassSymbol,
                     DataFlowKey,
                     callableId.callableName,
                     {
                         DataFlowNames.mutableStateFlow.createConeType(
-                            this@DataFlowFirDeclarationGenerationExtension.session,
+                            session,
                             typeArguments = arrayOf(
                                 matchedClassSymbol.classId
-                                    .createConeType(this@DataFlowFirDeclarationGenerationExtension.session)
+                                    .createConeType(session)
                                     .toTypeProjection(Variance.INVARIANT)
                             )
                         )
@@ -248,11 +248,9 @@ class DataFlowFirDeclarationGenerationExtension(session: FirSession) :
                     constructorSymbol = key.constructorSymbol,
                     parameterSymbol = parameterSymbol
                 ),
+
                 Name.identifier("set${callableId.callableName.identifier.titleCase()}"), {
-                    DataFlowNames.mutableStateFlow.createConeType(
-                        this@DataFlowFirDeclarationGenerationExtension.session,
-                        typeArguments = arrayOf(parameterSymbol.resolvedReturnType)
-                    )
+                    DataFlowNames.unit.createConeType(session)
                 }
             ).symbol
         )
