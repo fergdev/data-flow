@@ -24,5 +24,6 @@ internal val FirSession.dataFlowFirBuiltins: DataFlowFirBuiltins by FirSession.s
 
 internal val FirSession.annotations: Set<ClassId>
     get() = dataFlowFirBuiltins.annotations
+
 internal val FirSession.ignoreAnnotations: Set<ClassId>
     get() = dataFlowFirBuiltins.ignoreAnnotations

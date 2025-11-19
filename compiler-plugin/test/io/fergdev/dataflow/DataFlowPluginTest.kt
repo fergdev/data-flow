@@ -18,21 +18,21 @@ class DataFlowPluginTest {
 
     @Test
     fun `DataFlow plugin generates wrapper class`() {
-        val source = SourceFile.Companion.kotlin(
+        val source = SourceFile.kotlin(
             "MyData.kt", """
-            package com.example
+            package com.example1
 
             import io.fergdev.dataflow.annotations.DataFlow
 
             @DataFlow
-            data class MyData(val i: Int, val j: Int)
+            data class Example1Data(val i: Int, val j: String)
             """
         )
 
         val result = KotlinCompilation().apply {
             sources = listOf(source)
             compilerPluginRegistrars = listOf(DataFlowComponentRegistrar())
-            workingDir = File("build/compile-testing-out") // Or any other path
+            workingDir = File("build/compile-testing-out-1") // Or any other path
             inheritClassPath = true
             messageOutputStream = System.out
             val coroutinesCoreJar = System.getProperty("java.class.path")
@@ -46,7 +46,7 @@ class DataFlowPluginTest {
         // 4. Use Reflection to verify the generated code
 //        try {
         // Load the generated wrapper class
-        val generatedClass = result.classLoader.loadClass("com.example.MyDataFlow")
+        val generatedClass = result.classLoader.loadClass($$"com.example1.Example1Data$DataFlow")
         assertNotNull(generatedClass, "MyDataFlow class was not generated.")
 
         // Check for the 'all' property
@@ -91,24 +91,25 @@ class DataFlowPluginTest {
 //            throw AssertionError("A required method was not found in the generated class.", e)
 //        }
     }
+
     @Test
     fun `DataFlow plugin generates a usable wrapper class - test calls`() = runBlocking {
         val source = SourceFile.kotlin(
             "MyData.kt", """
-            package com.example
+            package com.example2
 
             import io.fergdev.dataflow.annotations.DataFlow
-            import kotlinx.coroutines.flow.StateFlow
+            import io.fergdev.dataflow.annotations.DataFlowIgnore
 
             @DataFlow
-            data class MyData(val i: Int, val j: Int)
+            data class Example2Data(val a: Int, val b: String, @DataFlowIgnore val c: Int)
             """
         )
 
         val result = KotlinCompilation().apply {
             sources = listOf(source)
             compilerPluginRegistrars = listOf(DataFlowComponentRegistrar())
-            workingDir = File("build/compile-testing-out")
+            workingDir = File("build/compile-testing-out-2")
             inheritClassPath = true
             messageOutputStream = System.out
             val coroutinesCoreJar = System.getProperty("java.class.path")
@@ -121,18 +122,21 @@ class DataFlowPluginTest {
         assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode, "Compilation failed!")
 
         // 1. Load the original and generated classes using Kotlin Reflection
-        val originalClass = result.classLoader.loadClass("com.example.MyData").kotlin
-        val generatedClazz = result.classLoader.loadClass("com.example.MyDataFlow")
+        val originalClass = result.classLoader.loadClass("com.example2.Example2Data").kotlin
+        val generatedClazz = result.classLoader.loadClass($$"com.example2.Example2Data$DataFlow")
         println("Constructors ${generatedClazz.constructors.size}")
-        assertEquals(generatedClazz.constructors.size, 0)
+        assertEquals(generatedClazz.constructors.size, 1)
 
         val generatedKlass = generatedClazz.kotlin
-//        println("Constructors ${generatedKlass.constructors.size}")
-//        assertNotNull(generatedKlass.constructors.singleOrNull {it.parameters.size == 2}, "Generated class must have constructor")
+        println("Constructors ${generatedKlass.constructors.size}")
+        assertNotNull(
+            generatedKlass.constructors.singleOrNull { it.parameters.size == 2 },
+            "Generated class must have constructor"
+        )
 //        assertNotNull(generatedClass.primaryConstructor, "Generated class must have a primary constructor.")
 
         // 2. Instantiate the generated class: val instance = MyDataFlow(i = 10, j = 20)
-        val instance = generatedKlass.primaryConstructor!!.call(10, 20)
+        val instance = generatedKlass.primaryConstructor!!.call(10, "hi")
         assertNotNull(instance, "Failed to instantiate MyDataFlow")
 
         // 3. Get the 'all' StateFlow property from the instance
@@ -142,7 +146,11 @@ class DataFlowPluginTest {
 
         // 4. Verify the initial state
         val initialData = allStateFlow.value
-        assertEquals(originalClass.primaryConstructor!!.call(10, 20), initialData, "Initial state is incorrect.")
+        assertEquals(
+            originalClass.primaryConstructor!!.call(10, 20),
+            initialData,
+            "Initial state is incorrect."
+        )
 
         // 5. Get and call the 'setI' method: instance.setI(15)
         val setIMethod = generatedKlass.members.first { it.name == "setI" }
@@ -150,7 +158,11 @@ class DataFlowPluginTest {
 
         // 6. Verify the updated state of the 'all' flow
         val updatedData = allStateFlow.value
-        assertEquals(originalClass.primaryConstructor!!.call(15, 20), updatedData, "State was not updated correctly after calling setI.")
+        assertEquals(
+            originalClass.primaryConstructor!!.call(15, 20),
+            updatedData,
+            "State was not updated correctly after calling setI."
+        )
 
         // 7. Get and call the 'setJ' method: instance.setJ(99)
         val setJMethod = generatedKlass.members.first { it.name == "setJ" }
@@ -158,7 +170,11 @@ class DataFlowPluginTest {
 
         // 8. Verify the final state
         val finalData = allStateFlow.value
-        assertEquals(originalClass.primaryConstructor!!.call(15, 99), finalData, "State was not updated correctly after calling setJ.")
+        assertEquals(
+            originalClass.primaryConstructor!!.call(15, 99),
+            finalData,
+            "State was not updated correctly after calling setJ."
+        )
 
         // 9. (Optional) Also check an individual StateFlow property
         val iStateFlowProperty = generatedKlass.members.first { it.name == "i" }

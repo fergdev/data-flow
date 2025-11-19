@@ -9,7 +9,7 @@ class DataFlowFirExtensionRegistrar(
 ) : FirExtensionRegistrar() {
     override fun ExtensionRegistrarContext.configurePlugin() {
         +DataFlowFirBuiltins.getFactory(annotations, ignoreAnnotations)
-        +::DataFlowFirCheckers
         +::DataFlowFirDeclarationGenerationExtension
+        +::DataFlowFirCheckers
     }
 }

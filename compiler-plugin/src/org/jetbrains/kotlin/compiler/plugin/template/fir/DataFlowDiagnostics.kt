@@ -23,8 +23,7 @@ private val psiElementClass by lazy {
         Class.forName("org.jetbrains.kotlin.com.intellij.psi.PsiElement")
     } catch (_: ClassNotFoundException) {
         Class.forName("com.intellij.psi.PsiElement")
-    }
-        .kotlin
+    }.kotlin
 }
 
 /** Copy of [org.jetbrains.kotlin.diagnostics.error0] with hack for correct `PsiElement` class. */

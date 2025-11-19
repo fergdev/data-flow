@@ -13,3 +13,5 @@ fun IrElement.print() {
     )
     println("*".repeat(20))
 }
+
+fun String.titleCase() = this.replaceFirstChar { it.uppercase() }

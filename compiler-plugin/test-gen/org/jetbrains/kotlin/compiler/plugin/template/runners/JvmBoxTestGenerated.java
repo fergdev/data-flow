@@ -32,4 +32,10 @@ public class JvmBoxTestGenerated extends AbstractJvmBoxTest {
   public void testSimple() {
     runTest("compiler-plugin/testData/box/simple.kt");
   }
+
+  @Test
+  @TestMetadata("wow.kt")
+  public void testWow() {
+    runTest("compiler-plugin/testData/box/wow.kt");
+  }
 }

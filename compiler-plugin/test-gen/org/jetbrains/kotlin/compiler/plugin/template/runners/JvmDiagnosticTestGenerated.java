@@ -32,4 +32,10 @@ public class JvmDiagnosticTestGenerated extends AbstractJvmDiagnosticTest {
   public void testSimple() {
     runTest("compiler-plugin/testData/diagnostics/simple.kt");
   }
+
+  @Test
+  @TestMetadata("wow.kt")
+  public void testWow() {
+    runTest("compiler-plugin/testData/diagnostics/wow.kt");
+  }
 }

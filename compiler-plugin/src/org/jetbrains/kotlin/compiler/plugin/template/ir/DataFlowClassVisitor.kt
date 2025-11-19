@@ -50,12 +50,15 @@ import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 
+private fun println(string: String) {
+    kotlin.io.println("IR $string")
+}
+
 internal class DataFlowClassVisitor(
     private val pluginContext: IrPluginContext,
     private val classAnnotations: Set<ClassId>,
     private val ignoreClassAnnotations: Set<ClassId>,
-) :
-    IrElementTransformerVoid() {
+) : IrElementTransformerVoid() {
     private val generatedClasses = mutableListOf<IrClass>()
     private val dataFlowAnnotation = FqName("io.fergdev.dataflow.annotations.DataFlow")
     private val fqNameMutableStateFlow = FqName("kotlinx.coroutines.flow.MutableStateFlow")

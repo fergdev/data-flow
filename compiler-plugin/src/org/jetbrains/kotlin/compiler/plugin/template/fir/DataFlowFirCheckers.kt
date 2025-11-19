@@ -12,6 +12,10 @@ import org.jetbrains.kotlin.fir.declarations.FirClass
 import org.jetbrains.kotlin.fir.declarations.getAnnotationByClassId
 import org.jetbrains.kotlin.fir.declarations.utils.nameOrSpecialName
 
+private fun println(string: String) {
+    kotlin.io.println("CHK $string")
+}
+
 internal class DataFlowFirCheckers(session: FirSession) : FirAdditionalCheckersExtension(session) {
     override val declarationCheckers: DeclarationCheckers =
         object : DeclarationCheckers() {
@@ -20,25 +24,30 @@ internal class DataFlowFirCheckers(session: FirSession) : FirAdditionalCheckersE
         }
 }
 
+// TODO add check - data class constructor is not empty
+// TODO add check - all properties are not ignore
 internal object FirDataFlowDeclarationChecker : FirClassChecker(MppCheckerKind.Common) {
     context(context: CheckerContext, reporter: DiagnosticReporter)
     override fun check(declaration: FirClass) {
-        println("We doing checks on ${declaration.nameOrSpecialName}")
+        println("check ${declaration.nameOrSpecialName}")
         val dataFlowClassAnnotations =
             context.session.annotations.mapNotNull { classId ->
                 declaration.getAnnotationByClassId(classId, context.session)
                     ?.let { it to classId }
             }
 
+        println("A ${declaration.nameOrSpecialName}")
         val dataFlowIgnoreAnnotation =
             context.session.ignoreAnnotations.mapNotNull { classId ->
                 declaration.getAnnotationByClassId(classId, context.session)
                     ?.let { it to classId }
             }
+        println("B ${declaration.nameOrSpecialName}")
 
         val classIsDataFlow = dataFlowClassAnnotations.isNotEmpty()
         val classHasIgnore = dataFlowIgnoreAnnotation.isNotEmpty()
 
+        println("*** Report classIsDataFlow='$classIsDataFlow' classHasIgnore='${classHasIgnore}'")
         if (!classIsDataFlow && classHasIgnore) {
             reporter.reportOn(
                 declaration.source,
