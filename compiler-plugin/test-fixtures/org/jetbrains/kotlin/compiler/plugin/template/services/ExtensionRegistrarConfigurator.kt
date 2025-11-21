@@ -3,6 +3,8 @@ package org.jetbrains.kotlin.compiler.plugin.template.services
 import org.jetbrains.kotlin.backend.common.extensions.IrGenerationExtension
 import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.compiler.plugin.template.SimplePluginRegistrar
+import org.jetbrains.kotlin.compiler.plugin.template.fir.DataFlowFirExtensionRegistrar
+import org.jetbrains.kotlin.compiler.plugin.template.ir.DataFlowIrGenerationExtension
 import org.jetbrains.kotlin.compiler.plugin.template.ir.SimpleIrGenerationExtension
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrarAdapter
@@ -21,7 +23,11 @@ private class ExtensionRegistrarConfigurator(testServices: TestServices) : Envir
         module: TestModule,
         configuration: CompilerConfiguration
     ) {
-        FirExtensionRegistrarAdapter.registerExtension(SimplePluginRegistrar())
-        IrGenerationExtension.registerExtension(SimpleIrGenerationExtension())
+        FirExtensionRegistrarAdapter.registerExtension(DataFlowFirExtensionRegistrar(setOf(), LinkedHashSet()))
+//        FirExtensionRegistrarAdapter.registerExtension(SimplePluginRegistrar())
+        IrGenerationExtension.registerExtension(DataFlowIrGenerationExtension(
+            setOf(), LinkedHashSet()
+        ))
+//        IrGenerationExtension.registerExtension(SimpleIrGenerationExtension())
     }
 }

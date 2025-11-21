@@ -3,6 +3,7 @@ plugins {
     `java-test-fixtures`
     id("com.github.gmazzo.buildconfig")
     idea
+    `maven-publish`
 }
 
 kotlin { compilerOptions.freeCompilerArgs.add("-Xcontext-parameters") }
@@ -36,8 +37,8 @@ dependencies {
     testFixturesApi(kotlin("compiler"))
 
     annotationsRuntimeClasspath(project(":plugin-annotations"))
+    annotationsRuntimeClasspath(libs.kotlinx.coroutines.core)
 
-    // Dependencies required to run the internal test framework.
     testRuntimeOnly(libs.junit)
     testRuntimeOnly(kotlin("reflect"))
     testRuntimeOnly(kotlin("test"))
@@ -48,6 +49,9 @@ dependencies {
 
     testRuntimeOnly(project(":plugin-annotations"))
     testImplementation(libs.kotlinx.coroutines.core)
+    // Not sure if this is correct
+    testFixturesRuntimeClasspath(libs.kotlinx.coroutines.core)
+//    testFixturesImplementation(libs.kotlinx.coroutines.core)
 }
 
 buildConfig {
@@ -110,4 +114,20 @@ fun Test.setLibraryProperty(propName: String, jarName: String) {
         ?.absolutePath
         ?: return
     systemProperty(propName, path)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+        }
+    }
+    repositories {
+        maven {
+            mavenLocal()
+        }
+    }
 }

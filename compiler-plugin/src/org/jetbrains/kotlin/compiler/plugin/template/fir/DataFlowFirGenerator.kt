@@ -56,7 +56,7 @@ data class A(val i: Int = 9) {
 
 
 private fun println(string: String) {
-    kotlin.io.println("FIR $string")
+//    kotlin.io.println("FIR $string")
 }
 
 class DataFlowFirDeclarationGenerationExtension(session: FirSession) :
@@ -111,23 +111,11 @@ class DataFlowFirDeclarationGenerationExtension(session: FirSession) :
     ): FirClassLikeSymbol<*>? {
         println("generateNestedClassLikeDeclaration ${owner.packageFqName()}.${owner.name} - $name")
         if (name != DataFlowNames.Names.DataFlow) return null
-        println("A")
         val scope: FirScope = owner.declaredMemberScope(
             session,
             memberRequiredPhase = null
         )
-        println("B")
-        val provider = session.predicateBasedProvider
-        println("C")
-//         scope.getDeclaredConstructors()
-//            .forEach { println("Constructor ${it}") }
-//
-//        val constructorSymbol = scope.getDeclaredConstructors()
-//            .singleOrNull { provider.matches(DATA_FLOW_PREDICATE, it) } ?: return null
         val constructorSymbol = scope.getDeclaredConstructors().first()
-//            .singleOrNull { provider.matches(DATA_FLOW_PREDICATE, it) } ?: return null
-
-        println("D")
         val dataFlowClass = createNestedClass(
             owner = owner,
             name = DataFlowNames.Names.DataFlow,
@@ -136,7 +124,6 @@ class DataFlowFirDeclarationGenerationExtension(session: FirSession) :
             visibility = constructorSymbol.visibility.takeIf { it != Visibilities.Unknown }
                 ?: owner.visibility
         }
-        println("E")
         return dataFlowClass.symbol
     }
 
@@ -149,7 +136,7 @@ class DataFlowFirDeclarationGenerationExtension(session: FirSession) :
 
         return listOf(createConstructor(context.owner, DataFlowKey, isPrimary = true) {
             key.constructorSymbol.valueParameterSymbols
-                .filter { !it.hasAnnotation(DataFlowNames.Annotation.CIgnore, session) }
+//                .filter { !it.hasAnnotation(DataFlowNames.Annotation.CIgnore, session) }
                 .forEach { parameter ->
                     println("*** param $parameter")
                     valueParameter(
@@ -248,9 +235,14 @@ class DataFlowFirDeclarationGenerationExtension(session: FirSession) :
                     constructorSymbol = key.constructorSymbol,
                     parameterSymbol = parameterSymbol
                 ),
-
                 Name.identifier("set${callableId.callableName.identifier.titleCase()}"), {
                     DataFlowNames.unit.createConeType(session)
+                },
+                {
+                    valueParameter(
+                        callableId.callableName,
+                        parameterSymbol.resolvedReturnType
+                    )
                 }
             ).symbol
         )

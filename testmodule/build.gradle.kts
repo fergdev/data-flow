@@ -53,14 +53,6 @@ kotlin {
             }
         }
 
-        androidMain {
-            dependencies {
-                // Add Android-specific dependencies here. Note that this source set depends on
-                // commonMain by default and will correctly pull the Android artifacts of any KMP
-                // dependencies declared in commonMain.
-            }
-        }
-
         getByName("androidDeviceTest") {
             dependencies {
                 implementation(libs.runner)
@@ -68,36 +60,9 @@ kotlin {
                 implementation(libs.ext.junit)
             }
         }
-
-        iosMain {
-            dependencies {
-            }
-        }
     }
 }
 
-// 1) Build a *constant* path string to the plugin jar
-// Make sure your compiler-plugin jar name is stable (see note below)
-val pluginProject = project(":compiler-plugin")
-val pluginJarPath: String =
-    rootProject.layout.projectDirectory
-        .dir("compiler-plugin/build/libs")
-        .file("${pluginProject.name}-${pluginProject.version}.jar")
-        .asFile
-        .absolutePath
-
-// 2) Apply the plugin to all compilations, and depend on :compiler-plugin:jar
-kotlin.targets.withType<KotlinJvmTarget>().configureEach {
-    compilations.configureEach {
-        compileTaskProvider.configure {
-            // ensure the plugin jar is built before compiling
-            dependsOn(":compiler-plugin:jar")
-
-            if(this is KotlinCompilationTask<*>) {
-                compilerOptions.freeCompilerArgs.add(
-                    "-Xplugin=$pluginJarPath"
-                )
-            }
-        }
-    }
+dependencies {
+    kotlinCompilerPluginClasspath(project(":compiler-plugin"))
 }

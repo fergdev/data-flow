@@ -5,8 +5,8 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        mavenLocal()
     }
-    
 }
 
 dependencyResolutionManagement {
@@ -15,13 +15,13 @@ dependencyResolutionManagement {
         maven("https://digital.artifacts.nz.thenational.com/repository/digital-maven")
         google()
         mavenCentral()
+        mavenLocal()
     }
 }
 
-rootProject.name = "compiler-plugin-template"
+rootProject.name = "dataflow"
 
 include("compiler-plugin")
 include("gradle-plugin")
 include("plugin-annotations")
 include(":testmodule")
-include(":testmodule2")

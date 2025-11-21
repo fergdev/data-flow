@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm")
     id("com.github.gmazzo.buildconfig")
     id("java-gradle-plugin")
+    `maven-publish`
 }
 
 sourceSets {
@@ -17,7 +18,6 @@ sourceSets {
 
 dependencies {
     implementation(kotlin("gradle-plugin-api"))
-
     testImplementation(kotlin("test-junit5"))
 }
 
@@ -46,6 +46,25 @@ gradlePlugin {
             displayName = "SimplePlugin"
             description = "SimplePlugin"
             implementationClass = "org.jetbrains.kotlin.compiler.plugin.template.SimpleGradlePlugin"
+        }
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+        }
+    }
+    repositories {
+        maven {
+            mavenLocal()
+
+//            url = uri("file://${buildDir}/repo") // Local repo for testing
+            // For remote, use your Maven repo URL and credentials
         }
     }
 }
