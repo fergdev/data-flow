@@ -2,14 +2,11 @@ package io.fergdev.dataflow
 
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.kotlin.compiler.plugin.template.DataFlowComponentRegistrar
 import org.junit.jupiter.api.Test
 import java.io.File
-import kotlin.reflect.KClass
-import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -75,12 +72,13 @@ class DataFlowPluginTest {
             "'j' field has wrong type."
         )
 
-        generatedClass.methods.forEach { println(it) }
+//            // Check for the 'setI' method
+//            // The parameter type for 'setI(Int)' is 'java.lang.Integer.TYPE'
         val setIMethod = generatedClass.getMethod("setI", Integer.TYPE)
         assertNotNull(setIMethod, "setI(Int) method was not found.")
 
-        val setJMethod = generatedClass.getMethod("setJ", String::class.java)
-        assertNotNull(setJMethod, "setI(Int) method was not found.")
+        val setJMethod = generatedClass.getMethod("setJ", Integer.TYPE)
+        assertNotNull(setIMethod, "setI(Int) method was not found.")
 
 //        } catch (e: ClassNotFoundException) {
 //            throw AssertionError(
@@ -124,9 +122,8 @@ class DataFlowPluginTest {
         assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode, "Compilation failed!")
 
         // 1. Load the original and generated classes using Kotlin Reflection
-        val originalKlazz = result.classLoader.loadClass("com.example2.Example2Data").kotlin
+        val originalClass = result.classLoader.loadClass("com.example2.Example2Data").kotlin
         val generatedClazz = result.classLoader.loadClass($$"com.example2.Example2Data$DataFlow")
-        generatedClazz.methods.forEach { println(it) }
         println("Constructors ${generatedClazz.constructors.size}")
         assertEquals(generatedClazz.constructors.size, 1)
 
@@ -136,21 +133,21 @@ class DataFlowPluginTest {
             generatedKlass.constructors.singleOrNull { it.parameters.size == 2 },
             "Generated class must have constructor"
         )
+//        assertNotNull(generatedClass.primaryConstructor, "Generated class must have a primary constructor.")
 
         // 2. Instantiate the generated class: val instance = MyDataFlow(i = 10, j = 20)
         val instance = generatedKlass.primaryConstructor!!.call(10, "hi")
         assertNotNull(instance, "Failed to instantiate MyDataFlow")
 
         // 3. Get the 'all' StateFlow property from the instance
-        prettyPrintKClass(generatedKlass)
-
-        val allStateFlowField = generatedClazz.declaredFields.first { it.name == "getAll" }
-        assertIs<MutableStateFlow<*>>(allStateFlowField, "'all' property is not a StateFlow")
+        val allStateFlowProperty = generatedKlass.members.first { it.name == "all" }
+        val allStateFlow = allStateFlowProperty.call(instance)
+        assertIs<StateFlow<*>>(allStateFlow, "'all' property is not a StateFlow")
 
         // 4. Verify the initial state
-        val initialData = allStateFlowField.value
+        val initialData = allStateFlow.value
         assertEquals(
-            originalKlazz.primaryConstructor!!.call(10, 20),
+            originalClass.primaryConstructor!!.call(10, 20),
             initialData,
             "Initial state is incorrect."
         )
@@ -160,52 +157,29 @@ class DataFlowPluginTest {
         setIMethod.call(instance, 15)
 
         // 6. Verify the updated state of the 'all' flow
-//        val updatedData = allStateFlow.value
-//        assertEquals(
-//            originalKlazz.primaryConstructor!!.call(15, 20),
-//            updatedData,
-//            "State was not updated correctly after calling setI."
-//        )
-//
-//        // 7. Get and call the 'setJ' method: instance.setJ(99)
-//        val setJMethod = generatedKlass.members.first { it.name == "setJ" }
-//        setJMethod.call(instance, 99)
-//
-//        // 8. Verify the final state
-//        val finalData = allStateFlow.value
-//        assertEquals(
-//            originalKlazz.primaryConstructor!!.call(15, 99),
-//            finalData,
-//            "State was not updated correctly after calling setJ."
-//        )
-//
-//        // 9. (Optional) Also check an individual StateFlow property
-//        val iStateFlowProperty = generatedKlass.members.first { it.name == "i" }
-//        val iStateFlow = iStateFlowProperty.call(instance)
-//        assertIs<StateFlow<*>>(iStateFlow)
-//        assertEquals(15, iStateFlow.value, "'i' StateFlow has incorrect value.")
-    }
-}
+        val updatedData = allStateFlow.value
+        assertEquals(
+            originalClass.primaryConstructor!!.call(15, 20),
+            updatedData,
+            "State was not updated correctly after calling setI."
+        )
 
-fun prettyPrintKClass(kClass: KClass<*>) {
-    println("Class: ${kClass.qualifiedName}")
+        // 7. Get and call the 'setJ' method: instance.setJ(99)
+        val setJMethod = generatedKlass.members.first { it.name == "setJ" }
+        setJMethod.call(instance, 99)
 
-    // Fields
-    println("  Fields:")
-    kClass.java.declaredFields.forEach { field ->
-        println("    ${field.type.simpleName} ${field.name}")
-    }
+        // 8. Verify the final state
+        val finalData = allStateFlow.value
+        assertEquals(
+            originalClass.primaryConstructor!!.call(15, 99),
+            finalData,
+            "State was not updated correctly after calling setJ."
+        )
 
-    // Properties
-    println("  Properties:")
-    kClass.memberProperties.forEach { prop ->
-        println("    ${prop.returnType} ${prop.name}")
-    }
-
-    // Methods
-    println("  Methods:")
-    kClass.java.declaredMethods.forEach { method ->
-        val params = method.parameterTypes.joinToString(", ") { it.simpleName }
-        println("    ${method.returnType.simpleName} ${method.name}($params)")
+        // 9. (Optional) Also check an individual StateFlow property
+        val iStateFlowProperty = generatedKlass.members.first { it.name == "i" }
+        val iStateFlow = iStateFlowProperty.call(instance)
+        assertIs<StateFlow<*>>(iStateFlow)
+        assertEquals(15, iStateFlow.value, "'i' StateFlow has incorrect value.")
     }
 }

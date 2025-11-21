@@ -13,7 +13,6 @@ data class Tea(
 )
 
 fun B() {
-//    val df = Tea.DataFlow(i = 0, j = 0)
 //    Wow(i = 1, j = 1)
 //    WowFlow(i = 1, j = 1)
 //    WowDataFlow(i = 1, j = 1)

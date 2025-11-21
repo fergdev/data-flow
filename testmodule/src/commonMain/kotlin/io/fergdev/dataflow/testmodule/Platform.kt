@@ -23,7 +23,7 @@ data class Powow(
 }
 
 fun A() {
-    val df = Wow.DataFlow(1,2,3)
+//    val df = Wow.DataFlow(1,2,3)
     val a = MutableStateFlow("a")
     a .value = "a"
 //    Wow.DataFlow()
