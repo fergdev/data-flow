@@ -19,9 +19,9 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "dataflow"
+include(":compiler-plugin")
+include(":gradle-plugin")
+include(":plugin-annotations")
+include(":example")
 
-include("compiler-plugin")
-include("gradle-plugin")
-include("plugin-annotations")
-include(":testmodule")
+rootProject.name = "dataflow"

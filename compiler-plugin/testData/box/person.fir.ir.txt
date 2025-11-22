@@ -1,0 +1,422 @@
+FILE fqName:io.fergdev.dataflow fileName:/person.kt
+  CLASS CLASS name:Person modality:FINAL visibility:public [data] superTypes:[kotlin.Any]
+    annotations:
+      DataFlow
+    thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:io.fergdev.dataflow.Person
+    PROPERTY name:i visibility:public modality:FINAL [val]
+      FIELD PROPERTY_BACKING_FIELD name:i type:kotlin.Int visibility:private [final]
+        EXPRESSION_BODY
+          GET_VAR 'i: kotlin.Int declared in io.fergdev.dataflow.Person.<init>' type=kotlin.Int origin=INITIALIZE_PROPERTY_FROM_PARAMETER
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-i> visibility:public modality:FINAL returnType:kotlin.Int
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person
+        correspondingProperty: PROPERTY name:i visibility:public modality:FINAL [val]
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun <get-i> (): kotlin.Int declared in io.fergdev.dataflow.Person'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:i type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.<get-i>' type=io.fergdev.dataflow.Person origin=null
+    PROPERTY name:j visibility:public modality:FINAL [val]
+      FIELD PROPERTY_BACKING_FIELD name:j type:kotlin.Int visibility:private [final]
+        EXPRESSION_BODY
+          GET_VAR 'j: kotlin.Int declared in io.fergdev.dataflow.Person.<init>' type=kotlin.Int origin=INITIALIZE_PROPERTY_FROM_PARAMETER
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-j> visibility:public modality:FINAL returnType:kotlin.Int
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person
+        correspondingProperty: PROPERTY name:j visibility:public modality:FINAL [val]
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun <get-j> (): kotlin.Int declared in io.fergdev.dataflow.Person'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:j type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.<get-j>' type=io.fergdev.dataflow.Person origin=null
+    PROPERTY name:k visibility:public modality:FINAL [val]
+      FIELD PROPERTY_BACKING_FIELD name:k type:kotlin.Int visibility:private [final]
+        EXPRESSION_BODY
+          GET_VAR 'k: kotlin.Int declared in io.fergdev.dataflow.Person.<init>' type=kotlin.Int origin=INITIALIZE_PROPERTY_FROM_PARAMETER
+      FUN DEFAULT_PROPERTY_ACCESSOR name:<get-k> visibility:public modality:FINAL returnType:kotlin.Int
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person
+        correspondingProperty: PROPERTY name:k visibility:public modality:FINAL [val]
+        BLOCK_BODY
+          RETURN type=kotlin.Nothing from='public final fun <get-k> (): kotlin.Int declared in io.fergdev.dataflow.Person'
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:k type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.<get-k>' type=io.fergdev.dataflow.Person origin=null
+    CLASS GENERATED[io.fergdev.dataflow.plugin.DataFlowClassKey] CLASS name:DataFlow modality:FINAL visibility:public superTypes:[kotlin.Any]
+      thisReceiver: VALUE_PARAMETER INSTANCE_RECEIVER kind:DispatchReceiver name:<this> type:io.fergdev.dataflow.Person.DataFlow
+      PROPERTY GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:all visibility:public modality:FINAL [val]
+        FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_all type:kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> visibility:private [final]
+        FUN DEFAULT_PROPERTY_ACCESSOR name:<get-all> visibility:public modality:FINAL returnType:kotlinx.coroutines.flow.StateFlow<io.fergdev.dataflow.Person>
+          VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person.DataFlow
+          correspondingProperty: PROPERTY GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:all visibility:public modality:FINAL [val]
+          BLOCK_BODY
+            RETURN type=kotlin.Nothing from='public final fun <get-all> (): kotlinx.coroutines.flow.StateFlow<io.fergdev.dataflow.Person> declared in io.fergdev.dataflow.Person.DataFlow'
+              GET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_all type:kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> origin=null
+                receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow.<get-all>' type=io.fergdev.dataflow.Person.DataFlow origin=null
+      PROPERTY GENERATED[io.fergdev.dataflow.plugin.DataFlowPropertyKey] name:i visibility:public modality:FINAL [val]
+        FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_i type:kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> visibility:private [final]
+        FUN DEFAULT_PROPERTY_ACCESSOR name:<get-i> visibility:public modality:FINAL returnType:kotlinx.coroutines.flow.StateFlow<kotlin.Int>
+          VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person.DataFlow
+          correspondingProperty: PROPERTY GENERATED[io.fergdev.dataflow.plugin.DataFlowPropertyKey] name:i visibility:public modality:FINAL [val]
+          BLOCK_BODY
+            RETURN type=kotlin.Nothing from='public final fun <get-i> (): kotlinx.coroutines.flow.StateFlow<kotlin.Int> declared in io.fergdev.dataflow.Person.DataFlow'
+              GET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_i type:kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> origin=null
+                receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow.<get-i>' type=io.fergdev.dataflow.Person.DataFlow origin=null
+      PROPERTY GENERATED[io.fergdev.dataflow.plugin.DataFlowPropertyKey] name:j visibility:public modality:FINAL [val]
+        FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_j type:kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> visibility:private [final]
+        FUN DEFAULT_PROPERTY_ACCESSOR name:<get-j> visibility:public modality:FINAL returnType:kotlinx.coroutines.flow.StateFlow<kotlin.Int>
+          VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person.DataFlow
+          correspondingProperty: PROPERTY GENERATED[io.fergdev.dataflow.plugin.DataFlowPropertyKey] name:j visibility:public modality:FINAL [val]
+          BLOCK_BODY
+            RETURN type=kotlin.Nothing from='public final fun <get-j> (): kotlinx.coroutines.flow.StateFlow<kotlin.Int> declared in io.fergdev.dataflow.Person.DataFlow'
+              GET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_j type:kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> origin=null
+                receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow.<get-j>' type=io.fergdev.dataflow.Person.DataFlow origin=null
+      CONSTRUCTOR GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] visibility:public returnType:io.fergdev.dataflow.Person.DataFlow [primary]
+        VALUE_PARAMETER GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] kind:Regular name:i index:0 type:kotlin.Int
+        VALUE_PARAMETER GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] kind:Regular name:j index:1 type:kotlin.Int
+        VALUE_PARAMETER GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] kind:Regular name:k index:2 type:kotlin.Int
+        BLOCK_BODY
+          DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+          INSTANCE_INITIALIZER_CALL classDescriptor='CLASS GENERATED[io.fergdev.dataflow.plugin.DataFlowClassKey] CLASS name:DataFlow modality:FINAL visibility:public superTypes:[kotlin.Any]' type=kotlin.Unit
+          SET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_all type:kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlin.Unit origin=null
+            receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow' type=io.fergdev.dataflow.Person.DataFlow origin=null
+            value: CALL 'public final fun MutableStateFlow <T> (value: T of kotlinx.coroutines.flow.MutableStateFlow): kotlinx.coroutines.flow.MutableStateFlow<T of kotlinx.coroutines.flow.MutableStateFlow> declared in kotlinx.coroutines.flow' type=kotlinx.coroutines.flow.MutableStateFlow<T of kotlinx.coroutines.flow.MutableStateFlow> origin=null
+              TYPE_ARG T: <none>
+              ARG value: CONSTRUCTOR_CALL 'public constructor <init> (i: kotlin.Int, j: kotlin.Int, k: kotlin.Int) declared in io.fergdev.dataflow.Person' type=io.fergdev.dataflow.Person origin=null
+                ARG i: GET_VAR 'i: kotlin.Int declared in io.fergdev.dataflow.Person.DataFlow.<init>' type=kotlin.Int origin=null
+                ARG j: GET_VAR 'j: kotlin.Int declared in io.fergdev.dataflow.Person.DataFlow.<init>' type=kotlin.Int origin=null
+                ARG k: GET_VAR 'k: kotlin.Int declared in io.fergdev.dataflow.Person.DataFlow.<init>' type=kotlin.Int origin=null
+          SET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_i type:kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlin.Unit origin=null
+            receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow' type=io.fergdev.dataflow.Person.DataFlow origin=null
+            value: CALL 'public final fun MutableStateFlow <T> (value: T of kotlinx.coroutines.flow.MutableStateFlow): kotlinx.coroutines.flow.MutableStateFlow<T of kotlinx.coroutines.flow.MutableStateFlow> declared in kotlinx.coroutines.flow' type=kotlinx.coroutines.flow.MutableStateFlow<T of kotlinx.coroutines.flow.MutableStateFlow> origin=null
+              TYPE_ARG T: <none>
+              ARG value: GET_VAR 'i: kotlin.Int declared in io.fergdev.dataflow.Person.DataFlow.<init>' type=kotlin.Int origin=null
+          SET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_j type:kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlin.Unit origin=null
+            receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow' type=io.fergdev.dataflow.Person.DataFlow origin=null
+            value: CALL 'public final fun MutableStateFlow <T> (value: T of kotlinx.coroutines.flow.MutableStateFlow): kotlinx.coroutines.flow.MutableStateFlow<T of kotlinx.coroutines.flow.MutableStateFlow> declared in kotlinx.coroutines.flow' type=kotlinx.coroutines.flow.MutableStateFlow<T of kotlinx.coroutines.flow.MutableStateFlow> origin=null
+              TYPE_ARG T: <none>
+              ARG value: GET_VAR 'j: kotlin.Int declared in io.fergdev.dataflow.Person.DataFlow.<init>' type=kotlin.Int origin=null
+      FUN FAKE_OVERRIDE name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [fake_override,operator]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+        overridden:
+          public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+      FUN FAKE_OVERRIDE name:hashCode visibility:public modality:OPEN returnType:kotlin.Int [fake_override]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        overridden:
+          public open fun hashCode (): kotlin.Int declared in kotlin.Any
+      FUN FAKE_OVERRIDE name:toString visibility:public modality:OPEN returnType:kotlin.String [fake_override]
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:kotlin.Any
+        overridden:
+          public open fun toString (): kotlin.String declared in kotlin.Any
+      FUN GENERATED[io.fergdev.dataflow.plugin.DataFlowFunctionKey] name:updateAll visibility:public modality:FINAL returnType:kotlin.Unit
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person.DataFlow
+        VALUE_PARAMETER GENERATED[io.fergdev.dataflow.plugin.DataFlowFunctionKey] kind:Regular name:all index:1 type:io.fergdev.dataflow.Person
+        BLOCK_BODY
+          CALL 'public abstract fun <set-value> (<set-?>: T of kotlinx.coroutines.flow.MutableStateFlow): kotlin.Unit declared in kotlinx.coroutines.flow.MutableStateFlow' type=kotlin.Unit origin=null
+            ARG <this>: GET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_all type:kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow.updateAll' type=io.fergdev.dataflow.Person.DataFlow origin=null
+            ARG <set-?>: GET_VAR 'all: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.DataFlow.updateAll' type=io.fergdev.dataflow.Person origin=null
+          CALL 'public abstract fun <set-value> (<set-?>: T of kotlinx.coroutines.flow.MutableStateFlow): kotlin.Unit declared in kotlinx.coroutines.flow.MutableStateFlow' type=kotlin.Unit origin=null
+            ARG <this>: GET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_i type:kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow.updateAll' type=io.fergdev.dataflow.Person.DataFlow origin=null
+            ARG <set-?>: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:i type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR 'all: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.DataFlow.updateAll' type=io.fergdev.dataflow.Person origin=null
+          CALL 'public abstract fun <set-value> (<set-?>: T of kotlinx.coroutines.flow.MutableStateFlow): kotlin.Unit declared in kotlinx.coroutines.flow.MutableStateFlow' type=kotlin.Unit origin=null
+            ARG <this>: GET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_j type:kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow.updateAll' type=io.fergdev.dataflow.Person.DataFlow origin=null
+            ARG <set-?>: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:j type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR 'all: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.DataFlow.updateAll' type=io.fergdev.dataflow.Person origin=null
+      FUN GENERATED[io.fergdev.dataflow.plugin.DataFlowFunctionKey] name:updateI visibility:public modality:FINAL returnType:kotlin.Unit
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person.DataFlow
+        VALUE_PARAMETER GENERATED[io.fergdev.dataflow.plugin.DataFlowFunctionKey] kind:Regular name:i index:1 type:kotlin.Int
+        BLOCK_BODY
+          CALL 'public abstract fun <set-value> (<set-?>: T of kotlinx.coroutines.flow.MutableStateFlow): kotlin.Unit declared in kotlinx.coroutines.flow.MutableStateFlow' type=kotlin.Unit origin=null
+            ARG <this>: GET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_i type:kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow.updateI' type=io.fergdev.dataflow.Person.DataFlow origin=null
+            ARG <set-?>: GET_VAR 'i: kotlin.Int declared in io.fergdev.dataflow.Person.DataFlow.updateI' type=kotlin.Int origin=null
+          CALL 'public abstract fun <set-value> (<set-?>: T of kotlinx.coroutines.flow.MutableStateFlow): kotlin.Unit declared in kotlinx.coroutines.flow.MutableStateFlow' type=kotlin.Unit origin=null
+            ARG <this>: GET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_all type:kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow.updateI' type=io.fergdev.dataflow.Person.DataFlow origin=null
+            ARG <set-?>: CALL 'public final fun copy (i: kotlin.Int, j: kotlin.Int, k: kotlin.Int): io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person' type=io.fergdev.dataflow.Person origin=null
+              ARG <this>: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.MutableStateFlow declared in kotlinx.coroutines.flow.MutableStateFlow' type=T of kotlinx.coroutines.flow.MutableStateFlow origin=null
+                ARG <this>: GET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_all type:kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> origin=null
+                  receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow.updateI' type=io.fergdev.dataflow.Person.DataFlow origin=null
+              ARG i: GET_VAR 'i: kotlin.Int declared in io.fergdev.dataflow.Person.DataFlow.updateI' type=kotlin.Int origin=null
+      FUN GENERATED[io.fergdev.dataflow.plugin.DataFlowFunctionKey] name:updateJ visibility:public modality:FINAL returnType:kotlin.Unit
+        VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person.DataFlow
+        VALUE_PARAMETER GENERATED[io.fergdev.dataflow.plugin.DataFlowFunctionKey] kind:Regular name:j index:1 type:kotlin.Int
+        BLOCK_BODY
+          CALL 'public abstract fun <set-value> (<set-?>: T of kotlinx.coroutines.flow.MutableStateFlow): kotlin.Unit declared in kotlinx.coroutines.flow.MutableStateFlow' type=kotlin.Unit origin=null
+            ARG <this>: GET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_j type:kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.MutableStateFlow<kotlin.Int> origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow.updateJ' type=io.fergdev.dataflow.Person.DataFlow origin=null
+            ARG <set-?>: GET_VAR 'j: kotlin.Int declared in io.fergdev.dataflow.Person.DataFlow.updateJ' type=kotlin.Int origin=null
+          CALL 'public abstract fun <set-value> (<set-?>: T of kotlinx.coroutines.flow.MutableStateFlow): kotlin.Unit declared in kotlinx.coroutines.flow.MutableStateFlow' type=kotlin.Unit origin=null
+            ARG <this>: GET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_all type:kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow.updateJ' type=io.fergdev.dataflow.Person.DataFlow origin=null
+            ARG <set-?>: CALL 'public final fun copy (i: kotlin.Int, j: kotlin.Int, k: kotlin.Int): io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person' type=io.fergdev.dataflow.Person origin=null
+              ARG <this>: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.MutableStateFlow declared in kotlinx.coroutines.flow.MutableStateFlow' type=T of kotlinx.coroutines.flow.MutableStateFlow origin=null
+                ARG <this>: GET_FIELD 'FIELD GENERATED[io.fergdev.dataflow.plugin.DataFlowKey] name:_all type:kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> visibility:private [final] declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.MutableStateFlow<io.fergdev.dataflow.Person> origin=null
+                  receiver: GET_VAR '<this>: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.Person.DataFlow.updateJ' type=io.fergdev.dataflow.Person.DataFlow origin=null
+              ARG j: GET_VAR 'j: kotlin.Int declared in io.fergdev.dataflow.Person.DataFlow.updateJ' type=kotlin.Int origin=null
+    CONSTRUCTOR visibility:public returnType:io.fergdev.dataflow.Person [primary]
+      VALUE_PARAMETER kind:Regular name:i index:0 type:kotlin.Int
+        EXPRESSION_BODY
+          CONST Int type=kotlin.Int value=0
+      VALUE_PARAMETER kind:Regular name:j index:1 type:kotlin.Int
+        EXPRESSION_BODY
+          CONST Int type=kotlin.Int value=1
+      VALUE_PARAMETER kind:Regular name:k index:2 type:kotlin.Int
+        annotations:
+          DataFlowIgnore
+        EXPRESSION_BODY
+          CONST Int type=kotlin.Int value=1
+      BLOCK_BODY
+        DELEGATING_CONSTRUCTOR_CALL 'public constructor <init> () declared in kotlin.Any'
+        INSTANCE_INITIALIZER_CALL classDescriptor='CLASS CLASS name:Person modality:FINAL visibility:public [data] superTypes:[kotlin.Any]' type=kotlin.Unit
+    FUN GENERATED_DATA_CLASS_MEMBER name:component1 visibility:public modality:FINAL returnType:kotlin.Int [operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public final fun component1 (): kotlin.Int declared in io.fergdev.dataflow.Person'
+          GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:i type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+            receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.component1' type=io.fergdev.dataflow.Person origin=null
+    FUN GENERATED_DATA_CLASS_MEMBER name:component2 visibility:public modality:FINAL returnType:kotlin.Int [operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public final fun component2 (): kotlin.Int declared in io.fergdev.dataflow.Person'
+          GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:j type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+            receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.component2' type=io.fergdev.dataflow.Person origin=null
+    FUN GENERATED_DATA_CLASS_MEMBER name:component3 visibility:public modality:FINAL returnType:kotlin.Int [operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public final fun component3 (): kotlin.Int declared in io.fergdev.dataflow.Person'
+          GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:k type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+            receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.component3' type=io.fergdev.dataflow.Person origin=null
+    FUN GENERATED_DATA_CLASS_MEMBER name:copy visibility:public modality:FINAL returnType:io.fergdev.dataflow.Person
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person
+      VALUE_PARAMETER kind:Regular name:i index:1 type:kotlin.Int
+        EXPRESSION_BODY
+          GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:i type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+            receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.copy' type=io.fergdev.dataflow.Person origin=null
+      VALUE_PARAMETER kind:Regular name:j index:2 type:kotlin.Int
+        EXPRESSION_BODY
+          GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:j type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+            receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.copy' type=io.fergdev.dataflow.Person origin=null
+      VALUE_PARAMETER kind:Regular name:k index:3 type:kotlin.Int
+        annotations:
+          DataFlowIgnore
+        EXPRESSION_BODY
+          GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:k type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+            receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.copy' type=io.fergdev.dataflow.Person origin=null
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public final fun copy (i: kotlin.Int, j: kotlin.Int, k: kotlin.Int): io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person'
+          CONSTRUCTOR_CALL 'public constructor <init> (i: kotlin.Int, j: kotlin.Int, k: kotlin.Int) declared in io.fergdev.dataflow.Person' type=io.fergdev.dataflow.Person origin=null
+            ARG i: GET_VAR 'i: kotlin.Int declared in io.fergdev.dataflow.Person.copy' type=kotlin.Int origin=null
+            ARG j: GET_VAR 'j: kotlin.Int declared in io.fergdev.dataflow.Person.copy' type=kotlin.Int origin=null
+            ARG k: GET_VAR 'k: kotlin.Int declared in io.fergdev.dataflow.Person.copy' type=kotlin.Int origin=null
+    FUN GENERATED_DATA_CLASS_MEMBER name:equals visibility:public modality:OPEN returnType:kotlin.Boolean [operator]
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person
+      VALUE_PARAMETER kind:Regular name:other index:1 type:kotlin.Any?
+      overridden:
+        public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in kotlin.Any
+      BLOCK_BODY
+        WHEN type=kotlin.Unit origin=null
+          BRANCH
+            if: CALL 'public final fun EQEQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EQEQEQ
+              ARG arg0: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.equals' type=io.fergdev.dataflow.Person origin=null
+              ARG arg1: GET_VAR 'other: kotlin.Any? declared in io.fergdev.dataflow.Person.equals' type=kotlin.Any? origin=null
+            then: RETURN type=kotlin.Nothing from='public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in io.fergdev.dataflow.Person'
+              CONST Boolean type=kotlin.Boolean value=true
+        WHEN type=kotlin.Unit origin=null
+          BRANCH
+            if: TYPE_OP type=kotlin.Boolean origin=NOT_INSTANCEOF typeOperand=io.fergdev.dataflow.Person
+              GET_VAR 'other: kotlin.Any? declared in io.fergdev.dataflow.Person.equals' type=kotlin.Any? origin=null
+            then: RETURN type=kotlin.Nothing from='public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in io.fergdev.dataflow.Person'
+              CONST Boolean type=kotlin.Boolean value=false
+        VAR IR_TEMPORARY_VARIABLE name:tmp_0 type:io.fergdev.dataflow.Person [val]
+          TYPE_OP type=io.fergdev.dataflow.Person origin=IMPLICIT_CAST typeOperand=io.fergdev.dataflow.Person
+            GET_VAR 'other: kotlin.Any? declared in io.fergdev.dataflow.Person.equals' type=kotlin.Any? origin=null
+        WHEN type=kotlin.Unit origin=null
+          BRANCH
+            if: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+              ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+                ARG arg0: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:i type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+                  receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.equals' type=io.fergdev.dataflow.Person origin=null
+                ARG arg1: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:i type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+                  receiver: GET_VAR 'val tmp_0: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.equals' type=io.fergdev.dataflow.Person origin=null
+            then: RETURN type=kotlin.Nothing from='public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in io.fergdev.dataflow.Person'
+              CONST Boolean type=kotlin.Boolean value=false
+        WHEN type=kotlin.Unit origin=null
+          BRANCH
+            if: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+              ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+                ARG arg0: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:j type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+                  receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.equals' type=io.fergdev.dataflow.Person origin=null
+                ARG arg1: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:j type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+                  receiver: GET_VAR 'val tmp_0: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.equals' type=io.fergdev.dataflow.Person origin=null
+            then: RETURN type=kotlin.Nothing from='public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in io.fergdev.dataflow.Person'
+              CONST Boolean type=kotlin.Boolean value=false
+        WHEN type=kotlin.Unit origin=null
+          BRANCH
+            if: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+              ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+                ARG arg0: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:k type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+                  receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.equals' type=io.fergdev.dataflow.Person origin=null
+                ARG arg1: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:k type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+                  receiver: GET_VAR 'val tmp_0: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.equals' type=io.fergdev.dataflow.Person origin=null
+            then: RETURN type=kotlin.Nothing from='public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in io.fergdev.dataflow.Person'
+              CONST Boolean type=kotlin.Boolean value=false
+        RETURN type=kotlin.Nothing from='public open fun equals (other: kotlin.Any?): kotlin.Boolean declared in io.fergdev.dataflow.Person'
+          CONST Boolean type=kotlin.Boolean value=true
+    FUN GENERATED_DATA_CLASS_MEMBER name:hashCode visibility:public modality:OPEN returnType:kotlin.Int
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person
+      overridden:
+        public open fun hashCode (): kotlin.Int declared in kotlin.Any
+      BLOCK_BODY
+        VAR name:result type:kotlin.Int [var]
+          CALL 'public open fun hashCode (): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+            ARG <this>: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:i type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.hashCode' type=io.fergdev.dataflow.Person origin=null
+        SET_VAR 'var result: kotlin.Int declared in io.fergdev.dataflow.Person.hashCode' type=kotlin.Unit origin=EQ
+          CALL 'public final fun plus (other: kotlin.Int): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+            ARG <this>: CALL 'public final fun times (other: kotlin.Int): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+              ARG <this>: GET_VAR 'var result: kotlin.Int declared in io.fergdev.dataflow.Person.hashCode' type=kotlin.Int origin=null
+              ARG other: CONST Int type=kotlin.Int value=31
+            ARG other: CALL 'public open fun hashCode (): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+              ARG <this>: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:j type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+                receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.hashCode' type=io.fergdev.dataflow.Person origin=null
+        SET_VAR 'var result: kotlin.Int declared in io.fergdev.dataflow.Person.hashCode' type=kotlin.Unit origin=EQ
+          CALL 'public final fun plus (other: kotlin.Int): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+            ARG <this>: CALL 'public final fun times (other: kotlin.Int): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+              ARG <this>: GET_VAR 'var result: kotlin.Int declared in io.fergdev.dataflow.Person.hashCode' type=kotlin.Int origin=null
+              ARG other: CONST Int type=kotlin.Int value=31
+            ARG other: CALL 'public open fun hashCode (): kotlin.Int declared in kotlin.Int' type=kotlin.Int origin=null
+              ARG <this>: GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:k type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+                receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.hashCode' type=io.fergdev.dataflow.Person origin=null
+        RETURN type=kotlin.Nothing from='public open fun hashCode (): kotlin.Int declared in io.fergdev.dataflow.Person'
+          GET_VAR 'var result: kotlin.Int declared in io.fergdev.dataflow.Person.hashCode' type=kotlin.Int origin=null
+    FUN GENERATED_DATA_CLASS_MEMBER name:toString visibility:public modality:OPEN returnType:kotlin.String
+      VALUE_PARAMETER kind:DispatchReceiver name:<this> index:0 type:io.fergdev.dataflow.Person
+      overridden:
+        public open fun toString (): kotlin.String declared in kotlin.Any
+      BLOCK_BODY
+        RETURN type=kotlin.Nothing from='public open fun toString (): kotlin.String declared in io.fergdev.dataflow.Person'
+          STRING_CONCATENATION type=kotlin.String
+            CONST String type=kotlin.String value="Person("
+            CONST String type=kotlin.String value="i="
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:i type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.toString' type=io.fergdev.dataflow.Person origin=null
+            CONST String type=kotlin.String value=", "
+            CONST String type=kotlin.String value="j="
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:j type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.toString' type=io.fergdev.dataflow.Person origin=null
+            CONST String type=kotlin.String value=", "
+            CONST String type=kotlin.String value="k="
+            GET_FIELD 'FIELD PROPERTY_BACKING_FIELD name:k type:kotlin.Int visibility:private [final]' type=kotlin.Int origin=null
+              receiver: GET_VAR '<this>: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.Person.toString' type=io.fergdev.dataflow.Person origin=null
+            CONST String type=kotlin.String value=")"
+  FUN name:assertEquals visibility:public modality:FINAL returnType:kotlin.Unit
+    VALUE_PARAMETER kind:Regular name:a index:0 type:kotlin.Any?
+    VALUE_PARAMETER kind:Regular name:b index:1 type:kotlin.Any?
+    BLOCK_BODY
+      WHEN type=kotlin.Unit origin=IF
+        BRANCH
+          if: CALL 'public final fun not (): kotlin.Boolean declared in kotlin.Boolean' type=kotlin.Boolean origin=EXCLEQ
+            ARG <this>: CALL 'public final fun EQEQ (arg0: kotlin.Any?, arg1: kotlin.Any?): kotlin.Boolean declared in kotlin.internal.ir' type=kotlin.Boolean origin=EXCLEQ
+              ARG arg0: GET_VAR 'a: kotlin.Any? declared in io.fergdev.dataflow.assertEquals' type=kotlin.Any? origin=null
+              ARG arg1: GET_VAR 'b: kotlin.Any? declared in io.fergdev.dataflow.assertEquals' type=kotlin.Any? origin=null
+          then: THROW type=kotlin.Nothing
+            CONSTRUCTOR_CALL 'public constructor <init> (p0: @[FlexibleNullability] kotlin.String?) declared in java.lang.IllegalStateException' type=java.lang.IllegalStateException origin=null
+              ARG p0: STRING_CONCATENATION type=kotlin.String
+                CONST String type=kotlin.String value="a "
+                GET_VAR 'a: kotlin.Any? declared in io.fergdev.dataflow.assertEquals' type=kotlin.Any? origin=null
+                CONST String type=kotlin.String value=" != b "
+                GET_VAR 'b: kotlin.Any? declared in io.fergdev.dataflow.assertEquals' type=kotlin.Any? origin=null
+  FUN name:box visibility:public modality:FINAL returnType:kotlin.String
+    BLOCK_BODY
+      VAR name:flow type:io.fergdev.dataflow.Person.DataFlow [val]
+        CONSTRUCTOR_CALL 'public constructor <init> (i: kotlin.Int, j: kotlin.Int, k: kotlin.Int) declared in io.fergdev.dataflow.Person.DataFlow' type=io.fergdev.dataflow.Person.DataFlow origin=null
+          ARG i: CONST Int type=kotlin.Int value=1
+          ARG j: CONST Int type=kotlin.Int value=2
+          ARG k: CONST Int type=kotlin.Int value=3
+      CALL 'public final fun assertEquals (a: kotlin.Any?, b: kotlin.Any?): kotlin.Unit declared in io.fergdev.dataflow' type=kotlin.Unit origin=null
+        ARG a: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.StateFlow declared in kotlinx.coroutines.flow.StateFlow' type=kotlin.Int origin=GET_PROPERTY
+          ARG <this>: CALL 'public final fun <get-i> (): kotlinx.coroutines.flow.StateFlow<kotlin.Int> declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.StateFlow<kotlin.Int> origin=GET_PROPERTY
+            ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG b: CONST Int type=kotlin.Int value=1
+      CALL 'public final fun assertEquals (a: kotlin.Any?, b: kotlin.Any?): kotlin.Unit declared in io.fergdev.dataflow' type=kotlin.Unit origin=null
+        ARG a: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.StateFlow declared in kotlinx.coroutines.flow.StateFlow' type=kotlin.Int origin=GET_PROPERTY
+          ARG <this>: CALL 'public final fun <get-j> (): kotlinx.coroutines.flow.StateFlow<kotlin.Int> declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.StateFlow<kotlin.Int> origin=GET_PROPERTY
+            ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG b: CONST Int type=kotlin.Int value=2
+      CALL 'public final fun assertEquals (a: kotlin.Any?, b: kotlin.Any?): kotlin.Unit declared in io.fergdev.dataflow' type=kotlin.Unit origin=null
+        ARG a: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.StateFlow declared in kotlinx.coroutines.flow.StateFlow' type=io.fergdev.dataflow.Person origin=GET_PROPERTY
+          ARG <this>: CALL 'public final fun <get-all> (): kotlinx.coroutines.flow.StateFlow<io.fergdev.dataflow.Person> declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.StateFlow<io.fergdev.dataflow.Person> origin=GET_PROPERTY
+            ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG b: CONSTRUCTOR_CALL 'public constructor <init> (i: kotlin.Int, j: kotlin.Int, k: kotlin.Int) declared in io.fergdev.dataflow.Person' type=io.fergdev.dataflow.Person origin=null
+          ARG i: CONST Int type=kotlin.Int value=1
+          ARG j: CONST Int type=kotlin.Int value=2
+          ARG k: CONST Int type=kotlin.Int value=3
+      CALL 'public final fun updateI (i: kotlin.Int): kotlin.Unit declared in io.fergdev.dataflow.Person.DataFlow' type=kotlin.Unit origin=null
+        ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG i: CONST Int type=kotlin.Int value=-1
+      CALL 'public final fun assertEquals (a: kotlin.Any?, b: kotlin.Any?): kotlin.Unit declared in io.fergdev.dataflow' type=kotlin.Unit origin=null
+        ARG a: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.StateFlow declared in kotlinx.coroutines.flow.StateFlow' type=kotlin.Int origin=GET_PROPERTY
+          ARG <this>: CALL 'public final fun <get-i> (): kotlinx.coroutines.flow.StateFlow<kotlin.Int> declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.StateFlow<kotlin.Int> origin=GET_PROPERTY
+            ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG b: CONST Int type=kotlin.Int value=-1
+      CALL 'public final fun assertEquals (a: kotlin.Any?, b: kotlin.Any?): kotlin.Unit declared in io.fergdev.dataflow' type=kotlin.Unit origin=null
+        ARG a: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.StateFlow declared in kotlinx.coroutines.flow.StateFlow' type=kotlin.Int origin=GET_PROPERTY
+          ARG <this>: CALL 'public final fun <get-j> (): kotlinx.coroutines.flow.StateFlow<kotlin.Int> declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.StateFlow<kotlin.Int> origin=GET_PROPERTY
+            ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG b: CONST Int type=kotlin.Int value=2
+      CALL 'public final fun assertEquals (a: kotlin.Any?, b: kotlin.Any?): kotlin.Unit declared in io.fergdev.dataflow' type=kotlin.Unit origin=null
+        ARG a: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.StateFlow declared in kotlinx.coroutines.flow.StateFlow' type=io.fergdev.dataflow.Person origin=GET_PROPERTY
+          ARG <this>: CALL 'public final fun <get-all> (): kotlinx.coroutines.flow.StateFlow<io.fergdev.dataflow.Person> declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.StateFlow<io.fergdev.dataflow.Person> origin=GET_PROPERTY
+            ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG b: CONSTRUCTOR_CALL 'public constructor <init> (i: kotlin.Int, j: kotlin.Int, k: kotlin.Int) declared in io.fergdev.dataflow.Person' type=io.fergdev.dataflow.Person origin=null
+          ARG i: CONST Int type=kotlin.Int value=-1
+          ARG j: CONST Int type=kotlin.Int value=2
+          ARG k: CONST Int type=kotlin.Int value=3
+      CALL 'public final fun updateJ (j: kotlin.Int): kotlin.Unit declared in io.fergdev.dataflow.Person.DataFlow' type=kotlin.Unit origin=null
+        ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG j: CONST Int type=kotlin.Int value=-2
+      CALL 'public final fun assertEquals (a: kotlin.Any?, b: kotlin.Any?): kotlin.Unit declared in io.fergdev.dataflow' type=kotlin.Unit origin=null
+        ARG a: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.StateFlow declared in kotlinx.coroutines.flow.StateFlow' type=kotlin.Int origin=GET_PROPERTY
+          ARG <this>: CALL 'public final fun <get-i> (): kotlinx.coroutines.flow.StateFlow<kotlin.Int> declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.StateFlow<kotlin.Int> origin=GET_PROPERTY
+            ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG b: CONST Int type=kotlin.Int value=-1
+      CALL 'public final fun assertEquals (a: kotlin.Any?, b: kotlin.Any?): kotlin.Unit declared in io.fergdev.dataflow' type=kotlin.Unit origin=null
+        ARG a: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.StateFlow declared in kotlinx.coroutines.flow.StateFlow' type=kotlin.Int origin=GET_PROPERTY
+          ARG <this>: CALL 'public final fun <get-j> (): kotlinx.coroutines.flow.StateFlow<kotlin.Int> declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.StateFlow<kotlin.Int> origin=GET_PROPERTY
+            ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG b: CONST Int type=kotlin.Int value=-2
+      CALL 'public final fun assertEquals (a: kotlin.Any?, b: kotlin.Any?): kotlin.Unit declared in io.fergdev.dataflow' type=kotlin.Unit origin=null
+        ARG a: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.StateFlow declared in kotlinx.coroutines.flow.StateFlow' type=io.fergdev.dataflow.Person origin=GET_PROPERTY
+          ARG <this>: CALL 'public final fun <get-all> (): kotlinx.coroutines.flow.StateFlow<io.fergdev.dataflow.Person> declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.StateFlow<io.fergdev.dataflow.Person> origin=GET_PROPERTY
+            ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG b: CONSTRUCTOR_CALL 'public constructor <init> (i: kotlin.Int, j: kotlin.Int, k: kotlin.Int) declared in io.fergdev.dataflow.Person' type=io.fergdev.dataflow.Person origin=null
+          ARG i: CONST Int type=kotlin.Int value=-1
+          ARG j: CONST Int type=kotlin.Int value=-2
+          ARG k: CONST Int type=kotlin.Int value=3
+      VAR name:person type:io.fergdev.dataflow.Person [val]
+        CONSTRUCTOR_CALL 'public constructor <init> (i: kotlin.Int, j: kotlin.Int, k: kotlin.Int) declared in io.fergdev.dataflow.Person' type=io.fergdev.dataflow.Person origin=null
+          ARG i: CONST Int type=kotlin.Int value=-10
+          ARG j: CONST Int type=kotlin.Int value=-20
+          ARG k: CONST Int type=kotlin.Int value=-30
+      CALL 'public final fun updateAll (all: io.fergdev.dataflow.Person): kotlin.Unit declared in io.fergdev.dataflow.Person.DataFlow' type=kotlin.Unit origin=null
+        ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG all: GET_VAR 'val person: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person origin=null
+      CALL 'public final fun assertEquals (a: kotlin.Any?, b: kotlin.Any?): kotlin.Unit declared in io.fergdev.dataflow' type=kotlin.Unit origin=null
+        ARG a: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.StateFlow declared in kotlinx.coroutines.flow.StateFlow' type=kotlin.Int origin=GET_PROPERTY
+          ARG <this>: CALL 'public final fun <get-i> (): kotlinx.coroutines.flow.StateFlow<kotlin.Int> declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.StateFlow<kotlin.Int> origin=GET_PROPERTY
+            ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG b: CALL 'public final fun <get-i> (): kotlin.Int declared in io.fergdev.dataflow.Person' type=kotlin.Int origin=GET_PROPERTY
+          ARG <this>: GET_VAR 'val person: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person origin=null
+      CALL 'public final fun assertEquals (a: kotlin.Any?, b: kotlin.Any?): kotlin.Unit declared in io.fergdev.dataflow' type=kotlin.Unit origin=null
+        ARG a: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.StateFlow declared in kotlinx.coroutines.flow.StateFlow' type=kotlin.Int origin=GET_PROPERTY
+          ARG <this>: CALL 'public final fun <get-j> (): kotlinx.coroutines.flow.StateFlow<kotlin.Int> declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.StateFlow<kotlin.Int> origin=GET_PROPERTY
+            ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG b: CALL 'public final fun <get-j> (): kotlin.Int declared in io.fergdev.dataflow.Person' type=kotlin.Int origin=GET_PROPERTY
+          ARG <this>: GET_VAR 'val person: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person origin=null
+      CALL 'public final fun assertEquals (a: kotlin.Any?, b: kotlin.Any?): kotlin.Unit declared in io.fergdev.dataflow' type=kotlin.Unit origin=null
+        ARG a: CALL 'public abstract fun <get-value> (): T of kotlinx.coroutines.flow.StateFlow declared in kotlinx.coroutines.flow.StateFlow' type=io.fergdev.dataflow.Person origin=GET_PROPERTY
+          ARG <this>: CALL 'public final fun <get-all> (): kotlinx.coroutines.flow.StateFlow<io.fergdev.dataflow.Person> declared in io.fergdev.dataflow.Person.DataFlow' type=kotlinx.coroutines.flow.StateFlow<io.fergdev.dataflow.Person> origin=GET_PROPERTY
+            ARG <this>: GET_VAR 'val flow: io.fergdev.dataflow.Person.DataFlow declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person.DataFlow origin=null
+        ARG b: GET_VAR 'val person: io.fergdev.dataflow.Person declared in io.fergdev.dataflow.box' type=io.fergdev.dataflow.Person origin=null
+      RETURN type=kotlin.Nothing from='public final fun box (): kotlin.String declared in io.fergdev.dataflow'
+        CONST String type=kotlin.String value="OK"

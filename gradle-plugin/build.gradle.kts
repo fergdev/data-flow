@@ -41,11 +41,11 @@ buildConfig {
 
 gradlePlugin {
     plugins {
-        create("SimplePlugin") {
+        create("DataFlowPlugin") {
             id = rootProject.group.toString()
-            displayName = "SimplePlugin"
-            description = "SimplePlugin"
-            implementationClass = "org.jetbrains.kotlin.compiler.plugin.template.SimpleGradlePlugin"
+            displayName = "DataFlowPlugin"
+            description = "DataFlowPlugin"
+            implementationClass = "io.fergdev.dataflow.DataFlowGradlePlugin"
         }
     }
 }
@@ -62,9 +62,6 @@ publishing {
     repositories {
         maven {
             mavenLocal()
-
-//            url = uri("file://${buildDir}/repo") // Local repo for testing
-            // For remote, use your Maven repo URL and credentials
         }
     }
 }

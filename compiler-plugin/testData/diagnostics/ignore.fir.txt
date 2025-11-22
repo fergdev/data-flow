@@ -1,0 +1,51 @@
+FILE: simple.kt
+    package foo.bar
+
+    @R|io/fergdev/dataflow/annotations/DataFlow|() public final data class Person : R|kotlin/Any| {
+        public constructor(i: R|kotlin/Int| = Int(0), j: R|kotlin/Int| = Int(1), @R|io/fergdev/dataflow/annotations/DataFlowIgnore|() k: R|kotlin/Int| = Int(1)): R|foo/bar/Person| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final val i: R|kotlin/Int| = R|<local>/i|
+            public get(): R|kotlin/Int|
+
+        public final val j: R|kotlin/Int| = R|<local>/j|
+            public get(): R|kotlin/Int|
+
+        public final val k: R|kotlin/Int| = R|<local>/k|
+            public get(): R|kotlin/Int|
+
+        public final operator fun component1(): R|kotlin/Int|
+
+        public final operator fun component2(): R|kotlin/Int|
+
+        public final operator fun component3(): R|kotlin/Int|
+
+        public final fun copy(i: R|kotlin/Int| = this@R|foo/bar/Person|.R|foo/bar/Person.i|, j: R|kotlin/Int| = this@R|foo/bar/Person|.R|foo/bar/Person.j|, @R|io/fergdev/dataflow/annotations/DataFlowIgnore|() k: R|kotlin/Int| = this@R|foo/bar/Person|.R|foo/bar/Person.k|): R|foo/bar/Person|
+
+        public final class DataFlow : R|kotlin/Any| {
+            public final val all: R|kotlinx/coroutines/flow/StateFlow<foo/bar/Person>|
+                public get(): R|kotlinx/coroutines/flow/StateFlow<foo/bar/Person>|
+
+            public final fun updateAll(all: R|foo/bar/Person|): R|kotlin/Unit|
+
+            public final val i: R|kotlinx/coroutines/flow/StateFlow<kotlin/Int>|
+                public get(): R|kotlinx/coroutines/flow/StateFlow<kotlin/Int>|
+
+            public final fun updateI(i: R|kotlin/Int|): R|kotlin/Unit|
+
+            public final val j: R|kotlinx/coroutines/flow/StateFlow<kotlin/Int>|
+                public get(): R|kotlinx/coroutines/flow/StateFlow<kotlin/Int>|
+
+            public final fun updateJ(j: R|kotlin/Int|): R|kotlin/Unit|
+
+            public constructor(i: R|kotlin/Int|, j: R|kotlin/Int|, k: R|kotlin/Int|): R|foo/bar/Person.DataFlow|
+
+        }
+
+    }
+    public final fun test(): R|kotlin/Unit| {
+        lval s: R|foo/bar/Person.DataFlow| = Q|foo/bar/Person|.R|foo/bar/Person.DataFlow|(Int(0), Int(0), Int(0))
+        R|<local>/s|.<Unresolved name: k>#
+        R|<local>/s|.<Unresolved name: updateK>#()
+    }

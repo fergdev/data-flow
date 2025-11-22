@@ -8,6 +8,6 @@ plugins {
 }
 
 allprojects {
-    group = "org.jetbrains.kotlin.compiler.plugin.template"
+    group = "io.fergdev.dataflow"
     version = "0.1.0-SNAPSHOT"
 }

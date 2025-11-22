@@ -28,14 +28,14 @@ public class JvmDiagnosticTestGenerated extends AbstractJvmDiagnosticTest {
   }
 
   @Test
-  @TestMetadata("simple.kt")
-  public void testSimple() {
-    runTest("compiler-plugin/testData/diagnostics/simple.kt");
+  @TestMetadata("person.kt")
+  public void testPerson() {
+    runTest("compiler-plugin/testData/diagnostics/person.kt");
   }
 
   @Test
-  @TestMetadata("wow.kt")
-  public void testWow() {
-    runTest("compiler-plugin/testData/diagnostics/wow.kt");
+  @TestMetadata("ignore.kt")
+  public void testSimple() {
+    runTest("compiler-plugin/testData/diagnostics/ignore.kt");
   }
 }

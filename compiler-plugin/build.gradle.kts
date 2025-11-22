@@ -26,12 +26,15 @@ idea {
     module.generatedSourceDirs.add(projectDir.resolve("test-gen"))
 }
 
-val annotationsRuntimeClasspath: Configuration by configurations.creating { isTransitive = false }
+val annotationsRuntimeClasspath: Configuration by configurations.creating {
+    isTransitive = false
+}
 
 dependencies {
     compileOnly(kotlin("compiler"))
     compileOnly(kotlin("compiler-embeddable"))
 
+//    testFixturesApi(kotlin("test"))
     testFixturesApi(kotlin("test-junit5"))
     testFixturesApi(kotlin("compiler-internal-test-framework"))
     testFixturesApi(kotlin("compiler"))
@@ -39,19 +42,18 @@ dependencies {
     annotationsRuntimeClasspath(project(":plugin-annotations"))
     annotationsRuntimeClasspath(libs.kotlinx.coroutines.core)
 
-    testRuntimeOnly(libs.junit)
+//    testRuntimeOnly(libs.junit)
     testRuntimeOnly(kotlin("reflect"))
     testRuntimeOnly(kotlin("test"))
     testRuntimeOnly(kotlin("script-runtime"))
     testRuntimeOnly(kotlin("annotations-jvm"))
     testImplementation(libs.kctfork.core)
-//    testFixturesImplementation("com.github.tschuchortdev:kotlin-compile-testing:1.5.0")
 
     testRuntimeOnly(project(":plugin-annotations"))
     testImplementation(libs.kotlinx.coroutines.core)
+
     // Not sure if this is correct
     testFixturesRuntimeClasspath(libs.kotlinx.coroutines.core)
-//    testFixturesImplementation(libs.kotlinx.coroutines.core)
 }
 
 buildConfig {
