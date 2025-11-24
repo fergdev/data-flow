@@ -1,5 +1,6 @@
 package io.fergdev.dataflow.plugin.fir
 
+import io.fergdev.dataflow.plugin.DataFlowNames
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.extensions.FirExtensionSessionComponent
 import org.jetbrains.kotlin.name.ClassId
@@ -23,7 +24,7 @@ internal class DataFlowFirBuiltins(
 internal val FirSession.dataFlowFirBuiltins: DataFlowFirBuiltins by FirSession.sessionComponentAccessor()
 
 internal val FirSession.annotations: Set<ClassId>
-    get() = dataFlowFirBuiltins.annotations
+    get() = setOf(DataFlowNames.Annotation.CDataFlow)
 
 internal val FirSession.ignoreAnnotations: Set<ClassId>
-    get() = dataFlowFirBuiltins.ignoreAnnotations
+    get() = setOf(DataFlowNames.Annotation.CIgnore)

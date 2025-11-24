@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.fir.analysis.checkers.declaration.DeclarationChecker
 import org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirClassChecker
 import org.jetbrains.kotlin.fir.analysis.extensions.FirAdditionalCheckersExtension
 import org.jetbrains.kotlin.fir.declarations.FirClass
+import org.jetbrains.kotlin.fir.declarations.constructors
 import org.jetbrains.kotlin.fir.declarations.getAnnotationByClassId
 import org.jetbrains.kotlin.fir.declarations.utils.nameOrSpecialName
 
@@ -37,17 +38,23 @@ internal object FirDataFlowDeclarationChecker : FirClassChecker(MppCheckerKind.C
 
         println("A ${declaration.nameOrSpecialName}")
         val dataFlowIgnoreAnnotation =
-            context.session.ignoreAnnotations.mapNotNull { classId ->
-                declaration.getAnnotationByClassId(classId, context.session)
-                    ?.let { it to classId }
+            context.session.ignoreAnnotations.map { classId ->
+                val c = declaration.constructors(context.session)
+                    .first()
+                c.valueParameterSymbols.any { ctorParam ->
+                    ctorParam.resolvedAnnotationClassIds.any { annotation ->
+                        context.session.ignoreAnnotations.contains(annotation)
+                    }
+                }
             }
         println("B ${declaration.nameOrSpecialName}")
 
         val classIsDataFlow = dataFlowClassAnnotations.isNotEmpty()
-        val classHasIgnore = dataFlowIgnoreAnnotation.isNotEmpty()
+        val classHasIgnore = dataFlowIgnoreAnnotation.any { it }
 
         println("*** Report classIsDataFlow='$classIsDataFlow' classHasIgnore='${classHasIgnore}'")
         if (!classIsDataFlow && classHasIgnore) {
+            println("Reporting")
             reporter.reportOn(
                 declaration.source,
                 DataFlowDiagnostics.DATAFLOW_ERROR,

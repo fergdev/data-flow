@@ -1,0 +1,26 @@
+FILE: person.kt
+    public final data class Person : R|kotlin/Any| {
+        public constructor(i: R|kotlin/Int| = Int(0), j: R|kotlin/Int| = Int(0), @R|io/fergdev/dataflow/annotations/DataFlowIgnore|() k: R|kotlin/Int| = Int(0)): R|Person| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final val i: R|kotlin/Int| = R|<local>/i|
+            public get(): R|kotlin/Int|
+
+        public final val j: R|kotlin/Int| = R|<local>/j|
+            public get(): R|kotlin/Int|
+
+        public final val k: R|kotlin/Int| = R|<local>/k|
+            public get(): R|kotlin/Int|
+
+        public final operator fun component1(): R|kotlin/Int|
+
+        public final operator fun component2(): R|kotlin/Int|
+
+        public final operator fun component3(): R|kotlin/Int|
+
+        public final fun copy(i: R|kotlin/Int| = this@R|/Person|.R|/Person.i|, j: R|kotlin/Int| = this@R|/Person|.R|/Person.j|, @R|io/fergdev/dataflow/annotations/DataFlowIgnore|() k: R|kotlin/Int| = this@R|/Person|.R|/Person.k|): R|Person|
+
+    }
+    public final fun test(): R|kotlin/Unit| {
+    }

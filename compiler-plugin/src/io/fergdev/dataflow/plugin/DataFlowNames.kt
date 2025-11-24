@@ -10,6 +10,10 @@ object DataFlowNames {
     object Annotation {
         val annotationPackage = FqName("io.fergdev.dataflow.annotations")
         val DataFlow = FqName("io.fergdev.dataflow.annotations.DataFlow")
+        val CDataFlow = ClassId(
+            packageFqName = annotationPackage,
+            topLevelName = Name.identifier("DataFlow")
+        )
         val CIgnore = ClassId(
             packageFqName = annotationPackage,
             topLevelName = Name.identifier("DataFlowIgnore")
@@ -21,16 +25,15 @@ object DataFlowNames {
         val AllPropName = Name.identifier("all")
         val AllFunName = Name.identifier("updateAll")
 
-
-        private const val prefix = "update"
-        fun Name.toUpdateName() = Name.identifier("${prefix}${this.identifier.titleCase()}")
+        private const val PREFIX = "update"
+        fun Name.toUpdateName() = Name.identifier("${PREFIX}${this.identifier.titleCase()}")
         fun Name.isUpdateName(): Boolean {
-            return this.identifier.startsWith(prefix)
+            return this.identifier.startsWith(PREFIX)
         }
 
         fun Name.updateToParamName() =
             Name.identifier(
-                this.identifier.removePrefix(prefix).replaceFirstChar { it.lowercase() })
+                this.identifier.removePrefix(PREFIX).replaceFirstChar { it.lowercase() })
     }
 
     object Callable {
