@@ -61,5 +61,12 @@ internal object FirDataFlowDeclarationChecker : FirClassChecker(MppCheckerKind.C
                 "Class is annotated with @DataFlowIgnore but is not annotated with @DataFlow"
             )
         }
+        if (dataFlowIgnoreAnnotation.all { it }) {
+            reporter.reportOn(
+                declaration.source,
+                DataFlowDiagnostics.DATAFLOW_ERROR,
+                "@Dataflow class has all properties annotated with @DataFlowIgnore"
+            )
+        }
     }
 }

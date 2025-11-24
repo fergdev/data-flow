@@ -9,7 +9,7 @@ import org.jetbrains.kotlin.config.CompilerConfigurationKey
 
 internal val KEY_ANNOTATIONS =
     CompilerConfigurationKey<String>(
-        "The redacted marker annotations (i.e. com/example/Redacted) to look for when redacting"
+        "The dataflow marker annotations (i.e. io/test/DataFlow) to look for when DataFlowing"
     )
 
 @Suppress("unused")
@@ -33,6 +33,8 @@ class DataFlowCommandLineProcessor : CommandLineProcessor {
     ) {
         when (option) {
             optionAnnotations -> configuration.put(KEY_ANNOTATIONS, value)
+
+
         }
     }
 }

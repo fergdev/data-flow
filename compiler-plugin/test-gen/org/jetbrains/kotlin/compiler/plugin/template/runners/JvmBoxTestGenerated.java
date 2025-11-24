@@ -22,8 +22,8 @@ public class JvmBoxTestGenerated extends AbstractJvmBoxTest {
   }
 
   @Test
-  @TestMetadata("ignoreMissingDataFlowAnnotation.kt")
+  @TestMetadata("person.kt")
   public void testPerson() {
-    runTest("compiler-plugin/testData/box/ignoreMissingDataFlowAnnotation.kt");
+    runTest("compiler-plugin/testData/box/person.kt");
   }
 }

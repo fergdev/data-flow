@@ -9,7 +9,7 @@ expect fun platform(): String
 @DataFlow
 data class Wow(
     val i: Int = 0,
-    val j: Int = 0,
+    @DataFlowIgnore val j: Int = 0,
     @DataFlowIgnore val k: Int = 0
 )
 

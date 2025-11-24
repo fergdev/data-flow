@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin("jvm")
     id("com.github.gmazzo.buildconfig")
@@ -50,18 +52,25 @@ gradlePlugin {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
-            groupId = project.group.toString()
-            artifactId = project.name
-            version = project.version.toString()
-        }
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
+}
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlin.compilerOptions.jvmTarget = JvmTarget.JVM_17
+}
+
+publishing {
+//    publications {
+//        create<MavenPublication>("maven") {
+////            from(components["java"])
+//            groupId = project.group.toString()
+//            artifactId = project.name
+//            version = project.version.toString()
+//        }
+//    }
     repositories {
-        maven {
-            mavenLocal()
-        }
+        mavenLocal()
     }
 }

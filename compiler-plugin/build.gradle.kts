@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin("jvm")
     `java-test-fixtures`
@@ -117,6 +119,14 @@ fun Test.setLibraryProperty(propName: String, jarName: String) {
         ?: return
     systemProperty(propName, path)
 }
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlin.compilerOptions.jvmTarget = JvmTarget.JVM_17
+}
 
 publishing {
     publications {
@@ -128,8 +138,6 @@ publishing {
         }
     }
     repositories {
-        maven {
-            mavenLocal()
-        }
+        mavenLocal()
     }
 }

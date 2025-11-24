@@ -22,6 +22,12 @@ public class JvmDiagnosticTestGenerated extends AbstractJvmDiagnosticTest {
   }
 
   @Test
+  @TestMetadata("allIgnored.kt")
+  public void testAllIgnored() {
+    runTest("compiler-plugin/testData/diagnostics/allIgnored.kt");
+  }
+
+  @Test
   @TestMetadata("anotherDiagnosticTest.kt")
   public void testAnotherDiagnosticTest() {
     runTest("compiler-plugin/testData/diagnostics/anotherDiagnosticTest.kt");
@@ -35,7 +41,7 @@ public class JvmDiagnosticTestGenerated extends AbstractJvmDiagnosticTest {
 
   @Test
   @TestMetadata("ignoreMissingDataFlowAnnotation.kt")
-  public void testPerson() {
+  public void testIgnoreMissingDataFlowAnnotation() {
     runTest("compiler-plugin/testData/diagnostics/ignoreMissingDataFlowAnnotation.kt");
   }
 }
