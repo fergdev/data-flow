@@ -29,3 +29,14 @@ which is pre-configured in this repository.
 
 [test-framework]: https://github.com/JetBrains/kotlin/blob/master/compiler/test-infrastructure/ReadMe.md
 [test-plugin]: https://github.com/JetBrains/kotlin-compiler-devkit
+
+# IDE Support
+The K2 Kotlin IntelliJ plugin supports running third party FIR plugins in the IDE, but this feature is hidden behind a flag. Some Metro features can take advantage of this, namely diagnostic reporting directly in the IDE and some opt-in features to see generated declarations.
+
+To enable it, do the following:
+
+- Enable K2 Mode for the Kotlin IntelliJ plugin.
+- Open the Registry
+- Set the kotlin.k2.only.bundled.compiler.plugins.enabled entry to false.
+- 
+Note that support is unstable and subject to change.
