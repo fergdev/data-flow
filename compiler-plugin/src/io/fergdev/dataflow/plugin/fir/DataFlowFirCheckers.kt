@@ -30,24 +30,22 @@ internal object FirDataFlowDeclarationChecker : FirClassChecker(MppCheckerKind.C
     context(context: CheckerContext, reporter: DiagnosticReporter)
     override fun check(declaration: FirClass) {
         println("check ${declaration.nameOrSpecialName}")
-        val dataFlowClassAnnotations =
+        val classAnnotations =
             context.session.annotations.mapNotNull { classId ->
                 declaration.getAnnotationByClassId(classId, context.session)
                     ?.let { it to classId }
             }
 
-        println("A ${declaration.nameOrSpecialName}")
-        val dataFlowIgnoreAnnotation =
+        val paramIgnoreAnnotations =
             declaration.constructors(context.session)
                 .first().valueParameterSymbols.map { ctorParam ->
                     ctorParam.resolvedAnnotationClassIds.any { annotation ->
                         context.session.ignoreAnnotations.contains(annotation)
                     }
                 }
-        println("B ${declaration.nameOrSpecialName}")
 
-        val classIsDataFlow = dataFlowClassAnnotations.isNotEmpty()
-        val classHasIgnore = dataFlowIgnoreAnnotation.any { it }
+        val classIsDataFlow = classAnnotations.isNotEmpty()
+        val classHasIgnore = paramIgnoreAnnotations.any { it }
 
         println("*** Report classIsDataFlow='$classIsDataFlow' classHasIgnore='${classHasIgnore}'")
         if (!classIsDataFlow && classHasIgnore) {
@@ -58,7 +56,7 @@ internal object FirDataFlowDeclarationChecker : FirClassChecker(MppCheckerKind.C
                 "Class is annotated with @DataFlowIgnore but is not annotated with @DataFlow"
             )
         }
-        if (dataFlowIgnoreAnnotation.all { it }) {
+        if (classIsDataFlow && paramIgnoreAnnotations.all { it }) {
             reporter.reportOn(
                 declaration.source,
                 DataFlowDiagnostics.DATAFLOW_ERROR,

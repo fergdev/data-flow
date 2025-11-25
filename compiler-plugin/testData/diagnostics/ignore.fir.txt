@@ -1,4 +1,4 @@
-FILE: simple.kt
+FILE: ignore.kt
     package foo.bar
 
     @R|io/fergdev/dataflow/annotations/DataFlow|() public final data class Person : R|kotlin/Any| {

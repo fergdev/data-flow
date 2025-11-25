@@ -1,4 +1,4 @@
-FILE: person.kt
+FILE: ignoreMissingDataFlowAnnotation.kt
     public final data class Person : R|kotlin/Any| {
         public constructor(i: R|kotlin/Int| = Int(0), j: R|kotlin/Int| = Int(0), @R|io/fergdev/dataflow/annotations/DataFlowIgnore|() k: R|kotlin/Int| = Int(0)): R|Person| {
             super<R|kotlin/Any|>()

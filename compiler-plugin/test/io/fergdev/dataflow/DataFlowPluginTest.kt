@@ -47,39 +47,58 @@ class DataFlowPluginTest {
 
         assertEquals(KotlinCompilation.ExitCode.OK, result.exitCode, "Compilation failed!")
 
-        // 4. Use Reflection to verify the generated code
-        val generatedClass = result.classLoader.loadClass("com.example1.Example1Data\$DataFlow")
-        generatedClass.kotlin.debugPrint()
-        generatedClass.debugPrint()
-        assertNotNull(generatedClass, "MyDataFlow class was not generated.")
 
-        // Check for the 'all' property
-        val allField = generatedClass.getDeclaredField("all")
-        assertEquals(
-            "kotlinx.coroutines.flow.MutableStateFlow",
-            allField.type.name,
-            "'all' field has wrong type."
+        // 1. Load the original and generated classes using Kotlin Reflection
+        val originalClass = result.classLoader.loadClass("com.example1.Example1Data").kotlin
+        val generatedClazz = result.classLoader.loadClass("com.example1.Example1Data\$DataFlow")
+        assertEquals(generatedClazz.constructors.size, 1)
+
+        val generatedKlass = generatedClazz.kotlin
+        assertNotNull(
+            generatedKlass.constructors.singleOrNull { it.parameters.size == 2 },
+            "Generated class must have a constructor with 2 parameters."
         )
 
-        val iField = generatedClass.getDeclaredField("i")
+        // 2. Instantiate the generated class: val instance = Example1Data(i = 10, j = 20)
+        val instance = generatedKlass.primaryConstructor!!.call(10, "20")
+        assertNotNull(instance, "Failed to instantiate Example1Data")
+
+        // 3. Get the 'all' StateFlow property from the instance
+        val allStateFlowProperty = generatedKlass.memberProperties.first { it.name == "all" }
+        val allStateFlow = allStateFlowProperty.call(instance)
+        assertIs<MutableStateFlow<*>>(allStateFlow, "'a' property is not a StateFlow")
+
+        // 4. Verify the initial state
+        val initialData = allStateFlow.value
         assertEquals(
-            "kotlinx.coroutines.flow.MutableStateFlow",
-            iField.type.name,
-            "'i' field has wrong type."
+            originalClass.primaryConstructor!!.call(10, "20"),
+            initialData,
+            "Initial state is incorrect."
         )
 
-        val jField = generatedClass.getDeclaredField("j")
+        // 5. Get and call the 'setI' method: instance.setI(15)
+        val setAMethod = generatedKlass.members.first { it.name == "updateI" }
+        setAMethod.call(instance, 15)
+
+        // 6. Verify the updated state of the 'all' flow
+        val updatedData = allStateFlow.value
         assertEquals(
-            "kotlinx.coroutines.flow.MutableStateFlow",
-            jField.type.name,
-            "'j' field has wrong type."
+            originalClass.primaryConstructor!!.call(15, "20"),
+            updatedData,
+            "State was not updated correctly after calling updateI."
         )
 
-        val setIMethod = generatedClass.getMethod("updateI", Integer.TYPE)
-        assertNotNull(setIMethod, "setI(Int) method was not found.")
+        // 7. Get and call the 'setJ' method: instance.setJ(99)
+        val setBMethod = generatedKlass.members.first { it.name == "updateJ" }
+        setBMethod.call(instance, "99")
 
-        val setJMethod = generatedClass.getMethod("updateJ", String::class.java)
-        assertNotNull(setJMethod, "setJ(Int) method was not found.")
+        // 8. Verify the final state
+        val finalData = allStateFlow.value
+        assertEquals(
+            originalClass.primaryConstructor!!.call(15, "99"),
+            finalData,
+            "State was not updated correctly after calling setJ."
+        )
     }
 
     @Test
@@ -129,11 +148,6 @@ class DataFlowPluginTest {
         assertNotNull(instance, "Failed to instantiate MyDataFlow")
 
         // 3. Get the 'all' StateFlow property from the instance
-//        val allStateFlowProperty = generatedKlass.memberProperties.first { it.name == "all" }
-//        val allStateFlow = allStateFlowProperty.call(instance)
-//        assertIs<StateFlow<*>>(allStateFlow, "'all' property is not a StateFlow")
-        generatedKlass.debugPrint()
-        generatedClazz.debugPrint()
         val allStateFlowProperty = generatedKlass.memberProperties.first { it.name == "all" }
         val allStateFlow = allStateFlowProperty.call(instance)
         assertIs<MutableStateFlow<*>>(allStateFlow, "'a' property is not a StateFlow")
@@ -179,6 +193,7 @@ class DataFlowPluginTest {
 }
 
 
+@Suppress("unused")
 fun <T : Any> KClass<T>.debugPrint() {
     println(this.debugToString())
 }
@@ -220,6 +235,7 @@ fun <T : Any> KClass<T>.debugToString(): String {
     return builder.toString()
 }
 
+@Suppress("unused")
 fun Class<*>.debugPrint() {
     println(debugToString())
 }
