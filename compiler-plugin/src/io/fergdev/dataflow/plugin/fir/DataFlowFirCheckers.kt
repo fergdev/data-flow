@@ -38,15 +38,12 @@ internal object FirDataFlowDeclarationChecker : FirClassChecker(MppCheckerKind.C
 
         println("A ${declaration.nameOrSpecialName}")
         val dataFlowIgnoreAnnotation =
-            context.session.ignoreAnnotations.map { classId ->
-                val c = declaration.constructors(context.session)
-                    .first()
-                c.valueParameterSymbols.any { ctorParam ->
+            declaration.constructors(context.session)
+                .first().valueParameterSymbols.map { ctorParam ->
                     ctorParam.resolvedAnnotationClassIds.any { annotation ->
                         context.session.ignoreAnnotations.contains(annotation)
                     }
                 }
-            }
         println("B ${declaration.nameOrSpecialName}")
 
         val classIsDataFlow = dataFlowClassAnnotations.isNotEmpty()

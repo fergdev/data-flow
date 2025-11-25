@@ -1,0 +1,73 @@
+FILE: nestedPerson.kt
+    package io.fergdev.dataflow
+
+    public final fun assertEquals(a: R|kotlin/Any?|, b: R|kotlin/Any?|): R|kotlin/Unit| {
+        when () {
+            !=(R|<local>/a|, R|<local>/b|) ->  {
+                throw R|java/lang/IllegalStateException.IllegalStateException|(<strcat>(String(a ), R|<local>/a|, String( != b ), R|<local>/b|))
+            }
+        }
+
+    }
+    @R|io/fergdev/dataflow/annotations/DataFlow|() public final data class Person : R|kotlin/Any| {
+        public constructor(i: R|kotlin/Int| = Int(0), j: R|kotlin/Int| = Int(1), friend: R|io/fergdev/dataflow/Person?| = Null(null)): R|io/fergdev/dataflow/Person| {
+            super<R|kotlin/Any|>()
+        }
+
+        public final val i: R|kotlin/Int| = R|<local>/i|
+            public get(): R|kotlin/Int|
+
+        public final val j: R|kotlin/Int| = R|<local>/j|
+            public get(): R|kotlin/Int|
+
+        public final val friend: R|io/fergdev/dataflow/Person?| = R|<local>/friend|
+            public get(): R|io/fergdev/dataflow/Person?|
+
+        public final operator fun component1(): R|kotlin/Int|
+
+        public final operator fun component2(): R|kotlin/Int|
+
+        public final operator fun component3(): R|io/fergdev/dataflow/Person?|
+
+        public final fun copy(i: R|kotlin/Int| = this@R|io/fergdev/dataflow/Person|.R|io/fergdev/dataflow/Person.i|, j: R|kotlin/Int| = this@R|io/fergdev/dataflow/Person|.R|io/fergdev/dataflow/Person.j|, friend: R|io/fergdev/dataflow/Person?| = this@R|io/fergdev/dataflow/Person|.R|io/fergdev/dataflow/Person.friend|): R|io/fergdev/dataflow/Person|
+
+        public final class DataFlow : R|kotlin/Any| {
+            public final val all: R|kotlinx/coroutines/flow/StateFlow<io/fergdev/dataflow/Person>|
+                public get(): R|kotlinx/coroutines/flow/StateFlow<io/fergdev/dataflow/Person>|
+
+            public final fun updateAll(all: R|io/fergdev/dataflow/Person|): R|kotlin/Unit|
+
+            public final val i: R|kotlinx/coroutines/flow/StateFlow<kotlin/Int>|
+                public get(): R|kotlinx/coroutines/flow/StateFlow<kotlin/Int>|
+
+            public final fun updateI(i: R|kotlin/Int|): R|kotlin/Unit|
+
+            public final val j: R|kotlinx/coroutines/flow/StateFlow<kotlin/Int>|
+                public get(): R|kotlinx/coroutines/flow/StateFlow<kotlin/Int>|
+
+            public final fun updateJ(j: R|kotlin/Int|): R|kotlin/Unit|
+
+            public final val friend: R|kotlinx/coroutines/flow/StateFlow<io/fergdev/dataflow/Person?>|
+                public get(): R|kotlinx/coroutines/flow/StateFlow<io/fergdev/dataflow/Person?>|
+
+            public final fun updateFriend(friend: R|io/fergdev/dataflow/Person?|): R|kotlin/Unit|
+
+            public constructor(i: R|kotlin/Int|, j: R|kotlin/Int|, friend: R|io/fergdev/dataflow/Person?|): R|io/fergdev/dataflow/Person.DataFlow|
+
+        }
+
+    }
+    public final fun box(): R|kotlin/String| {
+        lval friend: R|io/fergdev/dataflow/Person| = R|io/fergdev/dataflow/Person.Person|(Int(100), Int(200), Null(null))
+        lval df: R|io/fergdev/dataflow/Person.DataFlow| = Q|io/fergdev/dataflow/Person|.R|io/fergdev/dataflow/Person.DataFlow|(Int(10), Int(20), Null(null))
+        R|io/fergdev/dataflow/assertEquals|(R|<local>/df|.R|io/fergdev/dataflow/Person.DataFlow.i|.R|SubstitutionOverride<kotlinx/coroutines/flow/StateFlow.value: R|kotlin/Int|>|, Int(10))
+        R|io/fergdev/dataflow/assertEquals|(R|<local>/df|.R|io/fergdev/dataflow/Person.DataFlow.j|.R|SubstitutionOverride<kotlinx/coroutines/flow/StateFlow.value: R|kotlin/Int|>|, Int(20))
+        R|io/fergdev/dataflow/assertEquals|(R|<local>/df|.R|io/fergdev/dataflow/Person.DataFlow.friend|.R|SubstitutionOverride<kotlinx/coroutines/flow/StateFlow.value: R|io/fergdev/dataflow/Person?|>|, Null(null))
+        R|io/fergdev/dataflow/assertEquals|(R|<local>/df|.R|io/fergdev/dataflow/Person.DataFlow.all|.R|SubstitutionOverride<kotlinx/coroutines/flow/StateFlow.value: R|io/fergdev/dataflow/Person|>|, R|io/fergdev/dataflow/Person.Person|(Int(10), Int(20), Null(null)))
+        R|<local>/df|.R|io/fergdev/dataflow/Person.DataFlow.updateAll|(R|io/fergdev/dataflow/Person.Person|(Int(-10), Int(-20), R|<local>/friend|))
+        R|io/fergdev/dataflow/assertEquals|(R|<local>/df|.R|io/fergdev/dataflow/Person.DataFlow.i|.R|SubstitutionOverride<kotlinx/coroutines/flow/StateFlow.value: R|kotlin/Int|>|, Int(-10))
+        R|io/fergdev/dataflow/assertEquals|(R|<local>/df|.R|io/fergdev/dataflow/Person.DataFlow.j|.R|SubstitutionOverride<kotlinx/coroutines/flow/StateFlow.value: R|kotlin/Int|>|, Int(-20))
+        R|io/fergdev/dataflow/assertEquals|(R|<local>/df|.R|io/fergdev/dataflow/Person.DataFlow.friend|.R|SubstitutionOverride<kotlinx/coroutines/flow/StateFlow.value: R|io/fergdev/dataflow/Person?|>|, R|<local>/friend|)
+        R|io/fergdev/dataflow/assertEquals|(R|<local>/df|.R|io/fergdev/dataflow/Person.DataFlow.all|.R|SubstitutionOverride<kotlinx/coroutines/flow/StateFlow.value: R|io/fergdev/dataflow/Person|>|, R|io/fergdev/dataflow/Person.Person|(Int(-10), Int(-20), R|<local>/friend|))
+        ^box String(OK)
+    }

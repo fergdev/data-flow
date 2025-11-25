@@ -22,6 +22,12 @@ public class JvmBoxTestGenerated extends AbstractJvmBoxTest {
   }
 
   @Test
+  @TestMetadata("nestedPerson.kt")
+  public void testNestedPerson() {
+    runTest("compiler-plugin/testData/box/nestedPerson.kt");
+  }
+
+  @Test
   @TestMetadata("person.kt")
   public void testPerson() {
     runTest("compiler-plugin/testData/box/person.kt");

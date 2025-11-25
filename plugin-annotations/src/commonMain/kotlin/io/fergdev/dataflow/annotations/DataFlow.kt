@@ -1,16 +1,14 @@
 package io.fergdev.dataflow.annotations
 
 /**
- * An annotation that triggers the generation of a DataFlow wrapper class
- * for the annotated data class.
+ * An annotation to indicate that a particular class should have a DataFlow nested class.
  */
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.SOURCE)
 public annotation class DataFlow
 
 /**
- * An annotation that triggers the generation of a DataFlow wrapper class
- * for the annotated data class.
+ * An annotation to indicate that a particular parameter should be ignored by the DataFlow compiler.
  */
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.SOURCE)
