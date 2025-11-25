@@ -3,7 +3,8 @@ plugins {
     id(libs.plugins.build.config.get().pluginId)
     `java-test-fixtures`
     idea
-    `maven-publish`
+    alias(libs.plugins.maven.publish)
+    id("signing")
 }
 
 kotlin { compilerOptions.freeCompilerArgs.add("-Xcontext-parameters") }
@@ -38,7 +39,7 @@ dependencies {
     testFixturesApi(kotlin("compiler-internal-test-framework"))
     testFixturesApi(kotlin("compiler"))
 
-    annotationsRuntimeClasspath(project(":plugin-annotations"))
+    annotationsRuntimeClasspath(project(":annotations"))
     annotationsRuntimeClasspath(libs.kotlinx.coroutines.core)
 
     testRuntimeOnly(kotlin("reflect"))
@@ -46,8 +47,8 @@ dependencies {
     testRuntimeOnly(kotlin("script-runtime"))
     testRuntimeOnly(kotlin("annotations-jvm"))
     testImplementation(libs.kctfork.core)
+    testRuntimeOnly(project(":annotations"))
 
-    testRuntimeOnly(project(":plugin-annotations"))
     testImplementation(libs.kotlinx.coroutines.core)
 
     // Not sure if this is correct
@@ -124,16 +125,47 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlin.compilerOptions.jvmTarget = Config.jvmTarget
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
-            groupId = project.group.toString()
-            artifactId = project.name
-            version = project.version.toString()
+mavenPublishing {
+    publishToMavenCentral(automaticRelease = true)
+    signAllPublications()
+    coordinates(Config.group, "compiler-plugin", Config.versionName)
+
+    pom {
+        name.set(Config.name)
+        description.set(Config.description)
+        inceptionYear = Config.inceptionYear
+
+        url.set(Config.url)
+        licenses {
+            license {
+                name = Config.licenseName
+                url = Config.licenseUrl
+                distribution = Config.licenseDistribution
+            }
+        }
+        scm {
+            url.set(Config.url)
+            connection.set(Config.connection)
+            developerConnection.set(Config.developerConnection)
+        }
+        developers {
+            developer {
+                id.set(Config.developerId)
+                name.set(Config.developerName)
+            }
         }
     }
-    repositories {
-        mavenLocal()
+}
+
+signing {
+    val key = providers.gradleProperty("signingInMemoryKey").orNull
+    val pass = providers.gradleProperty("signingInMemoryKeyPassword").orNull
+    if (!key.isNullOrBlank()) {
+        useInMemoryPgpKeys(key, pass)
     }
+    sign(publishing.publications)
+}
+
+tasks.withType<Sign>().configureEach {
+    onlyIf { !project.version.toString().endsWith("SNAPSHOT") }
 }

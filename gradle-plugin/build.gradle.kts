@@ -4,7 +4,8 @@ plugins {
     id(libs.plugins.kotlin.jvm.get().pluginId)
     alias(libs.plugins.build.config)
     id("java-gradle-plugin")
-    `maven-publish`
+    alias(libs.plugins.maven.publish)
+    id("signing")
 }
 
 sourceSets {
@@ -33,7 +34,7 @@ buildConfig {
     buildConfigField("String", "KOTLIN_PLUGIN_NAME", "\"${pluginProject.name}\"")
     buildConfigField("String", "KOTLIN_PLUGIN_VERSION", "\"${pluginProject.version}\"")
 
-    val annotationsProject = project(":plugin-annotations")
+    val annotationsProject = project(":annotations")
     buildConfigField(
         type = "String",
         name = "ANNOTATIONS_LIBRARY_COORDINATES",
@@ -59,8 +60,47 @@ java {
 }
 tasks.withType<KotlinCompile> { kotlin.compilerOptions.jvmTarget = Config.jvmTarget }
 
-publishing {
-    repositories {
-        mavenLocal()
+mavenPublishing {
+    publishToMavenCentral(automaticRelease = true)
+    signAllPublications()
+    coordinates(Config.group, "gradle-plugin", Config.versionName)
+
+    pom {
+        name.set(Config.name)
+        description.set(Config.description)
+        inceptionYear = Config.inceptionYear
+
+        url.set(Config.url)
+        licenses {
+            license {
+                name = Config.licenseName
+                url = Config.licenseUrl
+                distribution = Config.licenseDistribution
+            }
+        }
+        scm {
+            url.set(Config.url)
+            connection.set(Config.connection)
+            developerConnection.set(Config.developerConnection)
+        }
+        developers {
+            developer {
+                id.set(Config.developerId)
+                name.set(Config.developerName)
+            }
+        }
     }
+}
+
+signing {
+    val key = providers.gradleProperty("signingInMemoryKey").orNull
+    val pass = providers.gradleProperty("signingInMemoryKeyPassword").orNull
+    if (!key.isNullOrBlank()) {
+        useInMemoryPgpKeys(key, pass)
+    }
+    sign(publishing.publications)
+}
+
+tasks.withType<Sign>().configureEach {
+    onlyIf { !project.version.toString().endsWith("SNAPSHOT") }
 }

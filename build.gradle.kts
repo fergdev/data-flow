@@ -7,6 +7,6 @@ plugins {
 }
 
 allprojects {
-    group = "io.fergdev.dataflow"
-    version = "0.1.0-SNAPSHOT"
+    group = Config.group
+    version = Config.versionName
 }

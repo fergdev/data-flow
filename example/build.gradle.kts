@@ -14,7 +14,7 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 implementation(libs.kotlinx.coroutines.core)
-                implementation(project(":plugin-annotations"))
+                implementation(project(":annotations"))
             }
         }
         commonTest {

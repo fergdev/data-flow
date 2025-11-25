@@ -17,7 +17,7 @@ dependencyResolutionManagement {
 
 include(":compiler-plugin")
 include(":gradle-plugin")
-include(":plugin-annotations")
+include(":annotations")
 include(":example")
 
 rootProject.name = "dataflow"
