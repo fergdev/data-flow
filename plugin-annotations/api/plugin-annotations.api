@@ -1,5 +1,6 @@
-public abstract interface annotation class io.fergdev.dataflow.annotations.DataFlow : java/lang/annotation/Annotation {
+public abstract interface annotation class io/fergdev/dataflow/annotations/DataFlow : java/lang/annotation/Annotation {
 }
 
-public abstract interface annotation class io.fergdev.dataflow.annotations.DataFlowIgnore : java/lang/annotation/Annotation {
+public abstract interface annotation class io/fergdev/dataflow/annotations/DataFlowIgnore : java/lang/annotation/Annotation {
 }
+

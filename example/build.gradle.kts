@@ -8,7 +8,7 @@ plugins {
 
 kotlin {
     jvm()
-    js()
+    js().nodejs()
     sourceSets {
         commonMain {
             dependencies {
