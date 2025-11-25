@@ -33,8 +33,6 @@ class DataFlowCommandLineProcessor : CommandLineProcessor {
     ) {
         when (option) {
             optionAnnotations -> configuration.put(KEY_ANNOTATIONS, value)
-
-
         }
     }
 }

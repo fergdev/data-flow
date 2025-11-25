@@ -3,14 +3,14 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-    kotlin("multiplatform")
-    id("org.jetbrains.kotlinx.binary-compatibility-validator")
+    id(libs.plugins.kotlin.multiplatform.get().pluginId)
+    alias(libs.plugins.binary.compatibility.validator)
     `maven-publish`
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(Config.JDK_TOOL_CHAIN))
     }
 }
 

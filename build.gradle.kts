@@ -1,10 +1,9 @@
 plugins {
-    alias(libs.plugins.kotlin.multiplatform) apply false
-    alias(libs.plugins.kotlin.jvm) apply false
+    id(libs.plugins.kotlin.multiplatform.get().pluginId) apply false
+    id(libs.plugins.kotlin.jvm.get().pluginId) apply false
     alias(libs.plugins.build.config)
     alias(libs.plugins.binary.compatibility.validator) apply false
     alias(libs.plugins.android.kotlin.multiplatform.library) apply false
-    alias(libs.plugins.android.lint) apply false
 }
 
 allprojects {

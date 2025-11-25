@@ -1,7 +1,5 @@
 pluginManagement {
     repositories {
-        maven("https://digital.artifacts.nz.thenational.com/repository/gradle-plugins")
-        maven("https://digital.artifacts.nz.thenational.com/repository/digital-maven")
         google()
         mavenCentral()
         gradlePluginPortal()
@@ -11,8 +9,6 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
-        maven("https://digital.artifacts.nz.thenational.com/repository/gradle-plugins")
-        maven("https://digital.artifacts.nz.thenational.com/repository/digital-maven")
         google()
         mavenCentral()
         mavenLocal()

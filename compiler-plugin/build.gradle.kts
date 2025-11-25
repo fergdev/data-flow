@@ -1,9 +1,7 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    kotlin("jvm")
+    id(libs.plugins.kotlin.jvm.get().pluginId)
+    id(libs.plugins.build.config.get().pluginId)
     `java-test-fixtures`
-    id("com.github.gmazzo.buildconfig")
     idea
     `maven-publish`
 }
@@ -36,7 +34,6 @@ dependencies {
     compileOnly(kotlin("compiler"))
     compileOnly(kotlin("compiler-embeddable"))
 
-//    testFixturesApi(kotlin("test"))
     testFixturesApi(kotlin("test-junit5"))
     testFixturesApi(kotlin("compiler-internal-test-framework"))
     testFixturesApi(kotlin("compiler"))
@@ -44,7 +41,6 @@ dependencies {
     annotationsRuntimeClasspath(project(":plugin-annotations"))
     annotationsRuntimeClasspath(libs.kotlinx.coroutines.core)
 
-//    testRuntimeOnly(libs.junit)
     testRuntimeOnly(kotlin("reflect"))
     testRuntimeOnly(kotlin("test"))
     testRuntimeOnly(kotlin("script-runtime"))
@@ -121,11 +117,11 @@ fun Test.setLibraryProperty(propName: String, jarName: String) {
 }
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(Config.JDK_TOOL_CHAIN))
     }
 }
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlin.compilerOptions.jvmTarget = JvmTarget.JVM_17
+    kotlin.compilerOptions.jvmTarget = Config.jvmTarget
 }
 
 publishing {
